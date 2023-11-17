@@ -2,7 +2,7 @@ const firstString = prompt("Enter first string:");
 const secondString = prompt("Enter second string:");
 const thirdString = prompt("Enter third string:");
 
-document.querySelector('#concat').innerHTML = firstString + secondString + thirdString;
+document.querySelector('#concat').innerHTML = firstString + ' ' + secondString + ' ' + thirdString;
 
 const x = 12345;
 const xs = x.toString();
