@@ -4,7 +4,7 @@ const thirdString = prompt("Enter third string:");
 
 document.querySelector('#concat').innerHTML = firstString + secondString + thirdString;
 
-const x = 10000;
+const x = 12345;
 const xs = x.toString();
 const xS = `${xs[0]} ${xs[1]} ${xs[2]} ${xs[3]} ${xs[4]}`;
 document.querySelector("#number1").innerHTML = xS;
