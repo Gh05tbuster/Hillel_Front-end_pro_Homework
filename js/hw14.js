@@ -54,3 +54,19 @@ let users = [
         "address": "314 Dunne Place, Bawcomville, Guam, 9053"
     }
 ]
+
+let usersBalance = [];
+let usersPhones = [];
+
+users.forEach((user) => {
+    let balance = +user.balance.split('$').join('').split(',').join('')
+    usersBalance.push(balance);
+    if (balance > 2000) usersPhones.push(user.phone);
+});
+
+let balanceSum = usersBalance.reduce((acc, i) => acc + i);
+balanceSum = +balanceSum.toFixed(2);
+
+console.log(usersBalance);
+console.log(balanceSum);
+console.log(usersPhones);
