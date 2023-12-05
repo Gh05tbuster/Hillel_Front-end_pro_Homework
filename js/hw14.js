@@ -53,19 +53,18 @@ const users = [
         "phone": "+1 (837) 586-3283",
         "address": "314 Dunne Place, Bawcomville, Guam, 9053"
     }
-]
+];
 
-const usersBalance = [];
-const usersPhones = [];
+const addNumBalance = (user) => {
+    return { ...user, numBalance: +user.balance.split('$').join('').split(',').join('') };
+}
 
-users.forEach((user) => {
-    const balance = +user.balance.split('$').join('').split(',').join('')
-    usersBalance.push(balance);
-    if (balance > 2000) usersPhones.push(user.phone);
-});
+const newUsers = users.map(addNumBalance);
+console.log(users);
+console.log(newUsers);
 
-const balanceSum = +usersBalance.reduce((acc, i) => acc + i).toFixed(2);
-
-console.log(usersBalance);
+const balanceSum = +newUsers.reduce((sum, user) => sum + user.numBalance, 0).toFixed(2);
 console.log(balanceSum);
-console.log(usersPhones);
+
+const phonesAbove2k = newUsers.filter(user => user.numBalance > 2000).map(user => user.phone);
+console.log(phonesAbove2k);
