@@ -1,4 +1,4 @@
-let users = [
+const users = [
     {
         "index": 0,
         "isActive": true,
@@ -55,17 +55,16 @@ let users = [
     }
 ]
 
-let usersBalance = [];
-let usersPhones = [];
+const usersBalance = [];
+const usersPhones = [];
 
 users.forEach((user) => {
-    let balance = +user.balance.split('$').join('').split(',').join('')
+    const balance = +user.balance.split('$').join('').split(',').join('')
     usersBalance.push(balance);
     if (balance > 2000) usersPhones.push(user.phone);
 });
 
-let balanceSum = usersBalance.reduce((acc, i) => acc + i);
-balanceSum = +balanceSum.toFixed(2);
+const balanceSum = +usersBalance.reduce((acc, i) => acc + i).toFixed(2);
 
 console.log(usersBalance);
 console.log(balanceSum);
