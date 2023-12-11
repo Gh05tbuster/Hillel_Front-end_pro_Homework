@@ -1,12 +1,13 @@
 const sum = () => {
-    let sum = 0;
+    let acc = 0;
 
     return function (i) {
-        return sum += i;
+        return acc += i;
     }
 }
 
-let a = sum();
-console.log(a(3));
-console.log(a(5));
-console.log(a(20));
+let add = sum();
+console.log(add(3));
+console.log(add(5));
+console.log(add(20));
+
