@@ -1,14 +1,20 @@
 class SuperMath {
-    input() {
-        obj.x = prompt("Enter X:");
-        obj.sign = prompt("Enter operation (+, -, *, /, %):");
-        obj.y = prompt("Enter Y:");
+    obj = {
+        x: 0,
+        y: 0,
+        sign: '',
+    }
 
-        if (isNaN(+obj.x) || isNaN(+obj.y)) {
+    input() {
+        this.obj.x = prompt("Enter X:");
+        this.obj.sign = prompt("Enter operation (+, -, *, /, %):");
+        this.obj.y = prompt("Enter Y:");
+
+        if (isNaN(+this.obj.x) || isNaN(+this.obj.y)) {
             this.input();
-            this.check(obj);
+            this.check(this.obj);
         }
-        else return obj;
+        else return this.obj;
     }
 
     check(obj) {
@@ -41,11 +47,11 @@ class SuperMath {
 }
 
 const p = new SuperMath();
-const obj = {
-    x: 2,
-    y: 3,
-    sign: '*'
-}
-// const obj = p.input();
+// const obj = {
+//     x: 2,
+//     y: 3,
+//     sign: '*'
+// }
+const obj = p.input();
 const r = p.check(obj);
 console.log(`${obj.x} ${obj.sign} ${obj.y} = ${r}`);
