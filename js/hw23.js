@@ -6,15 +6,12 @@ class SuperMath {
     }
 
     input() {
-        this.obj.x = prompt("Enter X:");
-        this.obj.sign = prompt("Enter operation (+, -, *, /, %):");
-        this.obj.y = prompt("Enter Y:");
-
-        if (isNaN(+this.obj.x) || isNaN(+this.obj.y)) {
-            this.input();
-            this.check(this.obj);
-        }
-        else return this.obj;
+        do {
+            this.obj.x = prompt("Enter X:");
+            this.obj.sign = prompt("Enter operation (+, -, *, /, %):");
+            this.obj.y = prompt("Enter Y:");
+        } while (isNaN(+this.obj.x) || isNaN(+this.obj.y));
+        return this.obj;
     }
 
     check(obj) {
@@ -28,7 +25,6 @@ class SuperMath {
                     case '*':
                         return obj.x * obj.y;
                     case '/':
-                        console.log(`${obj.x} ${obj.sign} ${obj.y} = ${obj.x / obj.y}`);
                         return obj.x / obj.y;
                     case '%':
                         return obj.x % obj.y;
@@ -36,12 +32,12 @@ class SuperMath {
                 }
             } else {
                 obj = this.input();
-                this.check(obj);
+                return this.check(obj);
             }
 
         } else {
             obj = this.input();
-            this.check(obj);
+            return this.check(obj);
         }
     }
 }
