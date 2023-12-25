@@ -35,12 +35,12 @@ class SuperMath {
                     default: return 0;
                 }
             } else {
-                this.input();
+                obj = this.input();
                 this.check(obj);
             }
 
         } else {
-            this.input();
+            obj = this.input();
             this.check(obj);
         }
     }
