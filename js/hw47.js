@@ -27,18 +27,24 @@ for (let [k, v] of Object.entries(codesSpaces)) {
     codesSpacesMap.set(k, v);
 }
 
+console.log(`Original`);
 console.log(codes);
+console.log(`Original stringified`);
 console.log(codesJson);
+console.log(`Original Map`);
 console.log(codesMap);
 
+console.log(`Spaced`);
 console.log(codesSpaces);
+console.log(`Spaced stringified`);
 console.log(codesSpacesJson);
+console.log(`Spaced Map`);
 console.log(codesSpacesMap);
 
-for (let key in codes) {
-    console.log(key);
-}
+// for (let key in codes) {
+//     console.log(key);
+// }
 
-for (let key in codesSpaces) {
-    console.log(key);
-}
+// for (let key in codesSpaces) {
+//     console.log(key);
+// }
