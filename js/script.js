@@ -26,6 +26,6 @@ reviews.forEach(r => {
     review.innerHTML = `
     <h3 class='title'>${r.name}</h3>
     <p class='text'>${r.text}</p> 
-    <img src='${r.photoURL}'>`;
+    <img src='${r.photoURL}' alt=''>`;
     testimonials.prepend(review);
 });
