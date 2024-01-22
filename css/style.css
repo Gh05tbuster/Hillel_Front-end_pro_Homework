@@ -20,7 +20,7 @@ img {
   text-align: center;
   margin-top: 10px;
 }
-
+/* ----------32------------- */
 #tableBlock {
   padding: 10px;
 }
@@ -35,4 +35,23 @@ img {
   padding: 10px;
   text-align: center;
   border: 2px solid #000;
+}
+
+/* ----------33----------- */
+.lotteryBlock {
+  margin-top: 20px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#openBox {
+  width: 200px;
+  height: 80px;
+  font-size: 32px;
+  cursor: pointer;
 }
