@@ -83,11 +83,10 @@ let prevCat;
 prodCat.addEventListener('click', showProducts);
 
 function showProducts(event) {
-    const target = event.target;
-    if (prevCat === target) return;
+    if (prevCat === event.target) return;
     prodList.innerHTML = ''; // comment this to spam cards
-    swapCat(target);
-    const filteredProducts = products.filter(product => product.categories === target.id);
+    swapCat(event.target);
+    const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
         card.className = 'productCard';
@@ -106,16 +105,13 @@ function swapCat(target) {
     target.classList.add('active');
 }
 
-// prodList.addEventListener('click', function (event) {
-//     if (event.target.closest('.productCard')) showDesc(event);
-// });
-
 prodList.addEventListener('click', showDesc);
 
 function showDesc(event) {
-    const target = event.target;
+    const productCard = event.target.closest('.productCard');
+    if (!productCard) return;
     prodDesc.innerHTML = '';
-    const currentProduct = products.find(el => el.id === target.id); //!target is usually not div
+    const currentProduct = products.find(el => el.id === productCard.id);
     prodDesc.innerHTML = `
      <img src='${getBackImg(currentProduct.img)}' class='bigImg'>
      <ul class='params'>${getParameterList(currentProduct.parameters)}</ul>

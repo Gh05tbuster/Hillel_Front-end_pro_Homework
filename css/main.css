@@ -172,6 +172,11 @@ main {
   gap: 20px;
 }
 
+.section.side .productDescription img {
+  max-height: 500px;
+  object-fit: contain;
+}
+
 .section.side .productDescription .params {
   list-style-type: none;
 }
