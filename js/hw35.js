@@ -85,6 +85,7 @@ prodCat.addEventListener('click', showProducts);
 function showProducts(event) {
     if (prevCat === event.target) return;
     prodList.innerHTML = ''; // comment this to spam cards
+    prodDesc.innerHTML = '';
     swapCat(event.target);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
