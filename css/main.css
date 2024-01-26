@@ -98,3 +98,103 @@ select {
   font-size: 48px;
   color: var(--main-soft);
 }
+
+/* ---------------------------------------- */
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+  /* gap: 20px; */
+}
+
+.aside,
+.section.main {
+  border-right: 1px solid var(--grey-separator);
+}
+
+.aside .productCategories li {
+  transition: none;
+  cursor: pointer;
+  padding: 5px;
+  border: 2px solid transparent;
+  border-left: none;
+}
+
+.aside .productCategories li:hover {
+  border: 2px solid var(--main-regular);
+  border-left: none;
+}
+
+.aside .productCategories li.active {
+  background-color: var(--grey-bg-alt);
+  font-weight: bold;
+}
+
+.section.main .productList {
+  /* padding: 20px; */
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.section.main .productList .productCard {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 10px;
+  width: 300px;
+  max-height: 400px;
+  background-color: var(--grey-bg);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.section.main .productList .productCard:hover {
+  transform: scale(1.025);
+}
+
+.section.main .productList .productCard img {
+  border-radius: 10px;
+  object-fit: contain;
+  height: 80%;
+}
+
+.section.main .productList .productCard .price {
+  font-size: 20px;
+}
+
+.section.side .productDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.section.side .productDescription .params {
+  list-style-type: none;
+}
+.section.side .productDescription .params li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.section.side .productDescription .params li:nth-of-type(2n + 1) {
+  background-color: var(--grey-bg);
+}
+
+.section.side .productDescription #buyBtn {
+  width: 300px;
+  height: 100px;
+  font-size: 56px;
+  color: #fff;
+  background-color: var(--main-regular);
+  cursor: pointer;
+  align-self: center;
+  text-transform: uppercase;
+}
+
+.section.side .productDescription #buyBtn:hover {
+  transform: scale(1.03);
+}
