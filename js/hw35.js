@@ -148,5 +148,6 @@ function clearAll() {
     prodDesc.innerHTML = '';
     const activeCat = document.querySelector('.aside .productCategories .active');
     activeCat.classList.remove('active');
+    prevCat = '';
 }
 
