@@ -95,7 +95,7 @@ function showProducts(event) {
         card.innerHTML = `
         <img src="${product.img}" alt="">
         <h4>${product.name}</h4>
-        <p class="price">${product.price}₴</p>`;
+        <p class="price">${product.price} ₴</p>`;
         prodList.append(card);
     });
 }
@@ -115,7 +115,9 @@ function showDesc(event) {
     const currentProduct = products.find(el => el.id === productCard.id);
     prodDesc.innerHTML = `
      <img src='${getBackImg(currentProduct.img)}' class='bigImg'>
+     <h3 class='title h3'>${currentProduct.name}</h3>
      <ul class='params'>${getParameterList(currentProduct.parameters)}</ul>
+     <p class='price'>${currentProduct.price} ₴</p>
     <button type='button' class='btn big' id='buyBtn'>Buy</button>`;
     const buyBtn = document.getElementById('buyBtn');
     buyBtn.addEventListener('click', buyProduct);
