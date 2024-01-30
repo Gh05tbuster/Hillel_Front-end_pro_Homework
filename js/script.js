@@ -9,11 +9,12 @@ getComments.addEventListener('click', findComments);
 
 function findPost() {
     currPost = '';
-    const fp = new Promise((resolve, reject) => {
-        if (postId.value >= 1 && postId.value <= 100)
-            resolve(fetch(`https://jsonplaceholder.typicode.com/posts/${postId.value}`));
-        else
-            reject(postId.value);
+    if (postId.value < 1 || postId.value > 100) {
+        content.innerHTML = `<h2 class='title h2'>Post does not exist</h2>`;
+        return;
+    }
+    const fp = new Promise((resolve) => {
+        resolve(fetch(`https://jsonplaceholder.typicode.com/posts/${postId.value}`));
     });
 
     fp.then((response) => response.json())
@@ -23,14 +24,18 @@ function findPost() {
 }
 
 function findComments() {
-    const fc = new Promise((resolve, reject) => {
-        if (currPost >= 1 && currPost <= 100)
-            resolve(fetch(`https://jsonplaceholder.typicode.com/comments?postId=${currPost}`));
+    if (currPost < 1 || currPost > 100) {
+        content.innerHTML = `<h2 class='title h2'>Post does not exist</h2>`;
+        return;
+    }
+
+    const fc = new Promise((resolve) => {
+        resolve(fetch(`https://jsonplaceholder.typicode.com/comments?postId=${currPost}`));
     });
 
     fc.then((response) => response.json())
         .then((json) => printComments(json))
-        .catch((error) => console.log(`Something went wrong (${error})`));
+        .catch(() => console.log(`Post does not exist`));
 }
 
 function printPost(title, text) {
