@@ -1,14 +1,6 @@
-// window.onload = function () {
-//     const citySelect = document.querySelector('.citySelect');
-//     cities.forEach(city => {
-//         citySelect.innerHTML += `
-//         <button class="btn city" id="${city}">${city}</button>`;
-//     });
-// }
-
 const cities = ['Kyiv', 'Lviv', 'Dnipro', 'Kharkiv', 'Odesa', 'Kherson'];
 const citySelect = document.querySelector('.citySelect');
-const weather = document.querySelector('.weather');
+const weatherBlock = document.querySelector('.weatherBlock');
 cities.forEach(city => {
     citySelect.innerHTML += `
     <button class="btn city" id="${city}">${city}</button>`;
@@ -27,10 +19,11 @@ function showWeather(event) {
 
     sw.then((response) => response.json())
         .then((json) => printWeather(json))
-        .catch((e) => weather.innerHTML = e);
+        .catch((e) => weatherBlock.innerHTML = e);
 }
 
 function printWeather(weatherData) {
+    const city = weatherData.name;
     const description = weatherData.weather[0].description;
     const icon = weatherData.weather[0].icon;
     const currTemp = weatherData.main.temp;
@@ -41,38 +34,61 @@ function printWeather(weatherData) {
     const windSpeed = weatherData.wind.speed;
     const windDirection = weatherData.wind.deg;
 
-    weather.innerHTML = `
-    <p>description: ${description}</p>
-    <img src='http://openweathermap.org/img/w/${icon}.png'>
-    <p>Temp: ${Math.round(currTemp)}°C</p>
-    <p>minTemp: ${Math.round(minTemp)}°C</p>
-    <p>maxTemp: ${Math.round(maxTemp)}°C</p>
-    <p>pressure:${pressure}</p>
-    <p>humidity: ${humidity}%</p>
-    <p>windSpeed: ${windSpeed} m/s</p>
-    <p>windDirection: ${windDirection}</p>
-    `;
+    const date = getCurrentDate();
 
-    //todo:
-    //? temp max&min icons instead of words
-    //? pressure icon
-    //? humidity icon
-    //? wind icons #A7BCDB
-    //! description: no icon
-    //! temp: no icon
+    weatherBlock.innerHTML = `
+    <div class="weather">
+    <div class="leftSide">
+        <div> 
+            <img src="http://openweathermap.org/img/w/${icon}.png" alt="">
+            <p class="description">${description}</p>
+        </div>
+        <div>
+            <p class="text">${city}</p>
+            <p class="text">${date.day} ${date.date} ${date.month}</p>
+        </div>
+    </div>
+    <div class="rightSide">
+        <div class="temp">
+            <p class="temperature">${Math.round(currTemp)}°C</p>
+        </div>
+        <div class="minTemp">
+            <img src="./img/arrow_down_icon.svg" alt="min temperature">
+            <p class="temperature">${Math.round(minTemp)}°C</p>
+        </div>
+        <div class="maxTemp">
+            <img src="./img/arrow_up_icon.svg" alt="max temperature">
+            <p class="temperature">${Math.round(maxTemp)}°C</p>
+        </div>
+        <div class="pressure">
+            <img src="./img/air_pressure_icon.svg" alt="air pressure">
+            <p class="text">${pressure} hPa</p>
+        </div>
+        <div class="humidity">
+            <img src="./img/humidity_icon.svg" alt="humidity">
+            <p class="text">${humidity}%</p>
+        </div>
+        <div class="wind">
+            <img src="./img/double_arrow_down_icon.svg" alt="" style="rotate: ${windDirection}deg">
+            <p class="text">${windSpeed} m/s</p>
+        </div>
+    </div>
+</div>`;
 }
 
-// {"coord":{"lon":30.5167,"lat":50.4333},
-//? "weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04n"}],
-// "base":"stations",
-//? "main":{"temp":2.5,"feels_like":-1.16,"temp_min":-1.35,"temp_max":3.18,"pressure":1026,"humidity":83},
-// "visibility":10000,
-//? "wind":{"speed":3.92,"deg":255,"gust":10.84},
-// "clouds":{"all":100},
-// "dt":1706725964,
-// "sys":{"type":2,"id":2003742,"country":"UA","sunrise":1706679322,
-// "sunset":1706712420},
-// "timezone":7200,
-// "id":703448,
-// "name":"Kyiv",
-// "cod":200}
+function getCurrentDate() {
+    const dateObj = {};
+    const currDate = new Date();
+
+    dateObj.date = currDate.getDate();
+
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayIndex = currDate.getDay();
+    dateObj.day = daysOfWeek[dayIndex];
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthIndex = currDate.getMonth();
+    dateObj.month = months[monthIndex];
+
+    return dateObj;
+}

@@ -65,3 +65,133 @@ select {
   font-weight: 700;
   line-height: normal;
 }
+
+.section.main .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  gap: 30px;
+}
+
+.citySelect .btn.city {
+  background-color: #197ce6;
+  color: #fff;
+  text-shadow: 0px 0px 5px var(--main-regular);
+  border: none;
+  border-radius: 5px;
+  min-width: 100px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: none;
+}
+
+.citySelect .btn.city:hover {
+  transform: scale(1.05);
+}
+
+.citySelect .btn.city:active {
+  transform: scale(0.95);
+}
+
+.weatherBlock .weather {
+  background: linear-gradient(210deg, #fff 0%, #00d4ff 100%);
+  box-shadow: 0 0 25px #00d4ff80;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  border-radius: 10px;
+  width: 450px;
+  height: 250px;
+  padding: 10px;
+  color: #fff;
+  text-shadow: 0px 0px 5px var(--main-regular);
+}
+
+.weatherBlock .weather .leftSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.weatherBlock .weather .leftSide img {
+  width: 120px;
+  height: 120px;
+}
+
+.weatherBlock .weather .leftSide .description {
+  text-transform: capitalize;
+}
+
+.weatherBlock .weather .leftSide .text {
+  font-weight: normal;
+}
+
+.weatherBlock .weather .rightSide {
+  display: grid;
+  grid-template-areas:
+    "tmp tmp"
+    "mnt mxt"
+    "pr hmd"
+    "wnd wnd";
+  font-size: 20px;
+  font-weight: bold;
+  gap: 0 10px;
+}
+
+.weatherBlock .weather .rightSide .temp .temperature {
+  text-align: end;
+  line-height: 100%;
+  font-size: 48px;
+}
+
+.weatherBlock .weather .rightSide {
+  width: 50%;
+}
+
+.weatherBlock .weather .rightSide div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.weatherBlock .weather .rightSide .temp {
+  justify-content: end;
+  grid-area: tmp;
+}
+
+.weatherBlock .weather .rightSide .minTemp {
+  grid-area: mxt;
+}
+
+.weatherBlock .weather .rightSide .maxTemp {
+  grid-area: mnt;
+}
+
+.weatherBlock .weather .rightSide .pressure {
+  grid-area: pr;
+}
+
+.weatherBlock .weather .rightSide .humidity {
+  grid-area: hmd;
+}
+
+.weatherBlock .weather .rightSide .wind {
+  grid-area: wnd;
+}
+
+.weatherBlock .weather .rightSide .minTemp .temperature,
+.weatherBlock .weather .rightSide .maxTemp .temperature {
+  font-size: 20px;
+}
+
+.weatherBlock .weather .rightSide img {
+  width: 30px;
+  height: 30px;
+}
