@@ -137,23 +137,25 @@ function getParameterList(p) {
     return params;
 }
 
-if (!true) localStorage.clear();
+if (!true) localStorage.clear();    //? remove ! to clear the storage, then return it
 
 function buyProduct(event) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
+    const price = products.filter(product => product.id === event.target.id)[0].price;
+    //* const newPrice = applyDiscount();
     const currDate = new Date();
     const orderData = {
         date: formatDate(currDate),
         time: formatTime(currDate),
         productID: event.target.id,
         orderID: orders.length + 1,
-        //! add price!
+        price: price,
+        //* price: newPrice,
     }
     orders.push(orderData);
     localStorage.setItem('orders', JSON.stringify(orders));
     const od = JSON.parse(localStorage.getItem('orders'));
-    console.log(od);
     clearAll();
     prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
 }
@@ -201,13 +203,11 @@ function showMyOrders() {
     orderList.id = 'orderList';
 
     orders.forEach(order => {
-        const price = products.filter(product => product.id === order.productID)[0].price;
         orderList.innerHTML += `<li id='${order.orderID}'>
         <p class='date'>${order.date}</p>
-        <p class='price'>${price} ₴</p>
+        <p class='price'>${order.price} ₴</p>
         </li>`;
     });
-
     aside.append(orderList);
 
     orderList.addEventListener('click', showOrderDetails);
@@ -222,12 +222,17 @@ function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
     const orders = JSON.parse(localStorage.getItem('orders'));
-    const thisOrder = orders.filter(order => order.orderID === selectedOrder.id);
-    const thisProduct = products.filter(product => product.id === thisOrder.productID);
+    const thisOrder = orders.filter(order => order.orderID === +selectedOrder.id)[0];
+    const thisProduct = products.filter(product => product.id === thisOrder.productID)[0];
     prodList.innerHTML = `<div class='orderDetails'>
     <img src='${thisProduct.img}'>
     <h4>${thisProduct.name}</h4>
-    <p class="price">${thisProduct.price} ₴</p>
-    </div>`; //! change price -^- to thisOrder 
-    //todo: add time and date, check what's wrong
+    <p class="price">${thisOrder.price} ₴</p>
+    <p class='date'>${thisOrder.date}</p>
+    <p class='time'>${thisOrder.time}</p>
+    </div>`;
 }
+
+//todo: add effect for active order
+//todo: make it prettier
+//todo: try to reduce the number of lines
