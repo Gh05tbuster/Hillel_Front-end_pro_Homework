@@ -118,8 +118,8 @@ function showDesc(event) {
      <h3 class='title h3'>${currentProduct.name}</h3>
      <ul class='params'>${getParameterList(currentProduct.parameters)}</ul>
      <p class='price'>${currentProduct.price} ₴</p>
-    <button type='button' class='btn big' id='buyBtn'>Buy</button>`;
-    const buyBtn = document.getElementById('buyBtn');
+    <button type='button' class='btn big main buyBtn' id='${productCard.id}'>Buy</button>`;
+    const buyBtn = document.querySelector('.buyBtn');
     buyBtn.addEventListener('click', buyProduct);
 }
 
@@ -137,16 +137,97 @@ function getParameterList(p) {
     return params;
 }
 
-function buyProduct() {
-    // purchasing process
+if (!true) localStorage.clear();
+
+function buyProduct(event) {
+    let orders = JSON.parse(localStorage.getItem('orders'));
+    if (!orders) orders = [];
+    const currDate = new Date();
+    const orderData = {
+        date: formatDate(currDate),
+        time: formatTime(currDate),
+        productID: event.target.id,
+        orderID: orders.length + 1,
+        //! add price!
+    }
+    orders.push(orderData);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    const od = JSON.parse(localStorage.getItem('orders'));
+    console.log(od);
     clearAll();
+    prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
 }
 
 function clearAll() {
-    prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
     prodDesc.innerHTML = '';
+    prodList.innerHTML = '';
     const activeCat = document.querySelector('.aside .productCategories .active');
-    activeCat.classList.remove('active');
+    if (activeCat) activeCat.classList.remove('active');
     prevCat = '';
 }
 
+function increaseOrdersNumber() {
+    const ordersNumber = +localStorage.getItem('ordersNumber');
+    ordersNumber ? localStorage.setItem('ordersNumber', ordersNumber + 1) : localStorage.setItem('ordersNumber', 1);
+}
+
+function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).padStart(2, '0');
+
+    return `${day}.${month}.${year}`;
+}
+
+function formatTime(date) {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${hours}:${minutes}:${seconds}`;
+}
+
+const myOrders = document.getElementById('myOrders');
+myOrders.addEventListener('click', showMyOrders);
+
+function showMyOrders() {
+    const orders = JSON.parse(localStorage.getItem('orders'));
+    if (!orders) return;
+    clearAll();
+    hideCategories();
+    const aside = document.querySelector('.aside');
+
+    const orderList = document.createElement('ul');
+    orderList.id = 'orderList';
+
+    orders.forEach(order => {
+        const price = products.filter(product => product.id === order.productID)[0].price;
+        orderList.innerHTML += `<li id='${order.orderID}'>
+        <p class='date'>${order.date}</p>
+        <p class='price'>${price} ₴</p>
+        </li>`;
+    });
+
+    aside.append(orderList);
+
+    orderList.addEventListener('click', showOrderDetails);
+}
+
+function hideCategories() {
+    const categories = document.querySelector('.aside .productCategories');
+    categories.style.display = 'none';
+}
+
+function showOrderDetails(event) {
+    const selectedOrder = event.target.closest('li');
+    if (!selectedOrder) return;
+    const orders = JSON.parse(localStorage.getItem('orders'));
+    const thisOrder = orders.filter(order => order.orderID === selectedOrder.id);
+    const thisProduct = products.filter(product => product.id === thisOrder.productID);
+    prodList.innerHTML = `<div class='orderDetails'>
+    <img src='${thisProduct.img}'>
+    <h4>${thisProduct.name}</h4>
+    <p class="price">${thisProduct.price} ₴</p>
+    </div>`; //! change price -^- to thisOrder 
+    //todo: add time and date, check what's wrong
+}

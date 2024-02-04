@@ -107,12 +107,53 @@ main {
   /* gap: 20px; */
 }
 
+.btn {
+  border: none;
+}
+
+.btn.main {
+  color: #fff;
+  background-color: var(--main-regular);
+  cursor: pointer;
+}
+
+.btn.big {
+  width: 300px;
+  height: 100px;
+  font-size: 56px;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 20px;
+}
+
 .aside,
 .section.main {
   border-right: 1px solid var(--grey-separator);
 }
 
-.aside .productCategories li {
+.aside .btn#myOrders {
+  border: 2px solid var(--main-regular);
+}
+
+.aside .btn#myOrders:hover {
+  background-color: #fff;
+  color: var(--main-regular);
+}
+
+.aside #orderList li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.aside #orderList li .date {
+  color: var(--main-soft);
+}
+
+.aside li {
   transition: none;
   cursor: pointer;
   padding: 5px;
@@ -120,12 +161,12 @@ main {
   border-left: none;
 }
 
-.aside .productCategories li:hover {
+.aside li:hover {
   border: 2px solid var(--main-regular);
   border-left: none;
 }
 
-.aside .productCategories li.active {
+.aside li.active {
   background-color: var(--grey-bg-alt);
   font-weight: bold;
 }
@@ -198,17 +239,11 @@ main {
   font-size: 24px;
 }
 
-.section.side .productDescription #buyBtn {
-  width: 300px;
-  height: 100px;
-  font-size: 56px;
-  color: #fff;
-  background-color: var(--main-regular);
-  cursor: pointer;
+.section.side .productDescription .buyBtn {
   align-self: center;
   text-transform: uppercase;
 }
 
-.section.side .productDescription #buyBtn:hover {
+.section.side .productDescription .buyBtn:hover {
   transform: scale(1.03);
 }
