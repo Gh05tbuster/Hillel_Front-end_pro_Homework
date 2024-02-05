@@ -228,11 +228,16 @@ main {
 .section.main .orderDetails .name-n-price {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .section.main .orderDetails .name-n-price .price {
   font-size: 20px;
   font-weight: bold;
+}
+
+.section.main .orderDetails .date-n-time {
+  color: var(--main-soft);
 }
 
 .section.main .orderDetails .del {
