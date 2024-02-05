@@ -140,6 +140,7 @@ function getParameterList(p) {
 function buyProduct(event) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
+
     const price = products.filter(product => product.id === event.target.id)[0].price;
     //* const newPrice = applyDiscount();
     const currDate = new Date();
@@ -233,16 +234,22 @@ function toggleCategories(action) {
 function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
+
     swapActiveLi(selectedOrder);
     const orders = JSON.parse(localStorage.getItem('orders'));
     const thisOrder = orders.filter(order => order.orderID === +selectedOrder.id)[0];
     const thisProduct = products.filter(product => product.id === thisOrder.productID)[0];
+
     prodList.innerHTML = `<div class='orderDetails'>
     <img src='${thisProduct.img}'>
-    <h4>${thisProduct.name}</h4>
-    <p class="price">${thisOrder.price} ₴</p>
-    <p class='date'>${thisOrder.date}</p>
-    <p class='time'>${thisOrder.time}</p>
+    <div class='name-n-price'> 
+        <h3>${thisProduct.name}</h3>
+        <p class="price">${thisOrder.price} ₴</p>
+    </div>
+    <div class='date-n-time'>
+        <p class='date'>${thisOrder.date}</p>
+        <p class='time'>${thisOrder.time}</p>
+    </div>
     <p class='del' id='del_${thisOrder.orderID}'>Delete</p>
     </div>`;
 
@@ -253,9 +260,9 @@ function showOrderDetails(event) {
 function deleteOrder(event) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     const orderId = event.target.id.split('_')[1];
-    console.log(JSON.parse(localStorage.getItem('orders')));
     const orderPosition = orders.findIndex(el => el.orderID === +orderId);
     const splicedOrders = orders.toSpliced(orderPosition, 1);
+
     if (splicedOrders.length > 0) {
         localStorage.setItem('orders', JSON.stringify(splicedOrders));
         toggleMyOrders(false);
@@ -266,10 +273,3 @@ function deleteOrder(event) {
         clearAll();
     }
 }
-
-//todo: back to categories?
-//todo: make it prettier
-//todo: try to reduce the number of lines
-
-
-if (!true) localStorage.clear();    //? remove ! to clear the storage, then return it
