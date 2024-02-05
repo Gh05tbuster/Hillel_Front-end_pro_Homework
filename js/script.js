@@ -213,8 +213,8 @@ function toggleMyOrders(clicked) {
 
     orders.forEach(order => {
         orderList.innerHTML += `<li id='${order.orderID}'>
-        <p class='date'>${order.date}</p>
-        <p class='price'>${order.price} ₴</p>
+        <p class='date txt'>${order.date}</p>
+        <p class='price txt'>${order.price} ₴</p>
         </li>`;
     });
     aside.append(orderList);

@@ -138,6 +138,10 @@ main {
   font-weight: bold;
 }
 
+.aside li .txt {
+  transition: none;
+}
+
 .section.main .productList {
   /* padding: 20px; */
   display: flex;
