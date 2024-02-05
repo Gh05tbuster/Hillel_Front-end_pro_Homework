@@ -137,8 +137,6 @@ function getParameterList(p) {
     return params;
 }
 
-if (!true) localStorage.clear();    //? remove ! to clear the storage, then return it
-
 function buyProduct(event) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
@@ -196,7 +194,7 @@ function showMyOrders() {
     const orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) return;
     clearAll();
-    hideCategories();
+    toggleCategories('hide');
     const aside = document.querySelector('.aside');
 
     const orderList = document.createElement('ul');
@@ -213,9 +211,12 @@ function showMyOrders() {
     orderList.addEventListener('click', showOrderDetails);
 }
 
-function hideCategories() {
+function toggleCategories(action) {
     const categories = document.querySelector('.aside .productCategories');
-    categories.style.display = 'none';
+    if (action === 'hide')
+        categories.style.display = 'none';
+    else if (action === 'show')
+        categories.style.display = 'initial';
 }
 
 function showOrderDetails(event) {
@@ -230,9 +231,34 @@ function showOrderDetails(event) {
     <p class="price">${thisOrder.price} ₴</p>
     <p class='date'>${thisOrder.date}</p>
     <p class='time'>${thisOrder.time}</p>
+    <p class='del' id='del_${thisOrder.orderID}'>Delete</p>
     </div>`;
+
+    const del = document.querySelector('.orderDetails .del');
+    del.addEventListener('click', deleteOrder);
+}
+
+function deleteOrder(event) {
+    const orders = JSON.parse(localStorage.getItem('orders'));
+    const orderId = event.target.id.split('_')[1];
+    const orderPosition = orders.findIndex(el => el.orderID === orderId);
+    const splicedOrders = orders.toSpliced(orderPosition, 1);
+    if (splicedOrders.length > 0) {
+        localStorage.setItem('orders', JSON.stringify(splicedOrders));
+        showMyOrders();
+    } else {
+        localStorage.removeItem('orders');
+        toggleCategories('show');
+    }
+
+
+    console.log(JSON.parse(localStorage.getItem('orders')) ? 1 : 0);
 }
 
 //todo: add effect for active order
+//todo: back to categories?
 //todo: make it prettier
 //todo: try to reduce the number of lines
+
+
+if (!true) localStorage.clear();    //? remove ! to clear the storage, then return it
