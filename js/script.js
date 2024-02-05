@@ -78,15 +78,15 @@ const products = [
 const prodCat = document.querySelector('.aside .productCategories');
 const prodList = document.querySelector('.section.main .productList');
 const prodDesc = document.querySelector('.section.side .productDescription');
-let prevCat;
+let prevLi;
 
 prodCat.addEventListener('click', showProducts);
 
 function showProducts(event) {
-    if (prevCat === event.target) return;
+    if (prevLi === event.target) return;
     prodList.innerHTML = ''; // comment this to spam cards
     prodDesc.innerHTML = '';
-    swapCat(event.target);
+    swapActiveLi(event.target);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
@@ -100,9 +100,9 @@ function showProducts(event) {
     });
 }
 
-function swapCat(target) {
-    if (prevCat) prevCat.classList.remove('active');
-    prevCat = target;
+function swapActiveLi(target) {
+    if (prevLi) prevLi.classList.remove('active');
+    prevLi = target;
     target.classList.add('active');
 }
 
@@ -161,16 +161,11 @@ function buyProduct(event) {
 function clearAll() {
     prodDesc.innerHTML = '';
     prodList.innerHTML = '';
-    const myOrders = document.getElementById('orderList');
-    if (myOrders) myOrders.remove();
+    const listOfOrders = document.getElementById('orderList');
+    if (listOfOrders) listOfOrders.remove();
     const activeCat = document.querySelector('.aside .productCategories .active');
     if (activeCat) activeCat.classList.remove('active');
-    prevCat = '';
-}
-
-function increaseOrdersNumber() {
-    const ordersNumber = +localStorage.getItem('ordersNumber');
-    ordersNumber ? localStorage.setItem('ordersNumber', ordersNumber + 1) : localStorage.setItem('ordersNumber', 1);
+    prevLi = '';
 }
 
 function formatDate(date) {
@@ -190,15 +185,28 @@ function formatTime(date) {
 }
 
 const myOrders = document.getElementById('myOrders');
-myOrders.addEventListener('click', showMyOrders);
+myOrders.addEventListener('click', () => {
+    const clicked = true;
+    toggleMyOrders(clicked)
+});
+let myOrdersActive = false;
+const myOrdersStatus = ['My orders', 'Categories'];
 
-function showMyOrders() {
+function toggleMyOrders(clicked) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) return;
     clearAll();
-    toggleCategories('hide');
-    const aside = document.querySelector('.aside');
+    prevLi = '';
 
+    if (clicked) {
+        toggleCategories(myOrdersStatus[+myOrdersActive]);
+        myOrdersActive = !myOrdersActive;
+        myOrders.innerText = myOrdersStatus[+myOrdersActive];
+    }
+
+    if (!myOrdersActive) return;
+
+    const aside = document.querySelector('.aside');
     const orderList = document.createElement('ul');
     orderList.id = 'orderList';
 
@@ -215,15 +223,17 @@ function showMyOrders() {
 
 function toggleCategories(action) {
     const categories = document.querySelector('.aside .productCategories');
-    if (action === 'hide')
+    if (action === 'My orders') {
         categories.style.display = 'none';
-    else if (action === 'show')
+    } else if (action === 'Categories') {
         categories.style.display = 'initial';
+    }
 }
 
 function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
+    swapActiveLi(selectedOrder);
     const orders = JSON.parse(localStorage.getItem('orders'));
     const thisOrder = orders.filter(order => order.orderID === +selectedOrder.id)[0];
     const thisProduct = products.filter(product => product.id === thisOrder.productID)[0];
@@ -248,15 +258,15 @@ function deleteOrder(event) {
     const splicedOrders = orders.toSpliced(orderPosition, 1);
     if (splicedOrders.length > 0) {
         localStorage.setItem('orders', JSON.stringify(splicedOrders));
-        showMyOrders();
+        toggleMyOrders(false);
     } else {
         localStorage.removeItem('orders');
-        toggleCategories('show');
+        toggleCategories('Categories');
+        myOrders.innerText = 'My orders';
         clearAll();
     }
 }
 
-//todo: add effect for active order
 //todo: back to categories?
 //todo: make it prettier
 //todo: try to reduce the number of lines
