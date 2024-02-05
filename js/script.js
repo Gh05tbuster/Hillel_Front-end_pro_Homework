@@ -161,6 +161,8 @@ function buyProduct(event) {
 function clearAll() {
     prodDesc.innerHTML = '';
     prodList.innerHTML = '';
+    const myOrders = document.getElementById('orderList');
+    if (myOrders) myOrders.remove();
     const activeCat = document.querySelector('.aside .productCategories .active');
     if (activeCat) activeCat.classList.remove('active');
     prevCat = '';
@@ -241,7 +243,8 @@ function showOrderDetails(event) {
 function deleteOrder(event) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     const orderId = event.target.id.split('_')[1];
-    const orderPosition = orders.findIndex(el => el.orderID === orderId);
+    console.log(JSON.parse(localStorage.getItem('orders')));
+    const orderPosition = orders.findIndex(el => el.orderID === +orderId);
     const splicedOrders = orders.toSpliced(orderPosition, 1);
     if (splicedOrders.length > 0) {
         localStorage.setItem('orders', JSON.stringify(splicedOrders));
@@ -249,10 +252,8 @@ function deleteOrder(event) {
     } else {
         localStorage.removeItem('orders');
         toggleCategories('show');
+        clearAll();
     }
-
-
-    console.log(JSON.parse(localStorage.getItem('orders')) ? 1 : 0);
 }
 
 //todo: add effect for active order
