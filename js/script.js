@@ -78,12 +78,12 @@ const products = [
 const prodCat = document.querySelector('.aside .productCategories');
 const prodList = document.querySelector('.section.main .productList');
 const prodDesc = document.querySelector('.section.side .productDescription');
-let prevLi;
+let currentItem;
 
 prodCat.addEventListener('click', showProducts);
 
 function showProducts(event) {
-    if (prevLi === event.target) return;
+    if (currentItem === event.target) return;
     prodList.innerHTML = ''; // comment this to spam cards
     prodDesc.innerHTML = '';
     swapActiveLi(event.target);
@@ -101,8 +101,8 @@ function showProducts(event) {
 }
 
 function swapActiveLi(target) {
-    if (prevLi) prevLi.classList.remove('active');
-    prevLi = target;
+    if (currentItem) currentItem.classList.remove('active');
+    currentItem = target;
     target.classList.add('active');
 }
 
@@ -141,6 +141,11 @@ function buyProduct(event) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
 
+    let currentOrderId = +localStorage.getItem('currentOrderID');
+    if (!currentOrderId) {
+        localStorage.setItem('currentOrderID', 1);
+        currentOrderId = +localStorage.getItem('currentOrderID');
+    }
     const price = products.filter(product => product.id === event.target.id)[0].price;
     //* const newPrice = applyDiscount();
     const currDate = new Date();
@@ -148,25 +153,25 @@ function buyProduct(event) {
         date: formatDate(currDate),
         time: formatTime(currDate),
         productID: event.target.id,
-        orderID: orders.length + 1,
+        orderID: currentOrderId,
         price: price,
         //* price: newPrice,
     }
     orders.push(orderData);
     localStorage.setItem('orders', JSON.stringify(orders));
-    const od = JSON.parse(localStorage.getItem('orders'));
+    localStorage.setItem('currentOrderID', +currentOrderId + 1);
     clearAll();
     prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
 }
 
 function clearAll() {
+    currentItem = '';
     prodDesc.innerHTML = '';
     prodList.innerHTML = '';
     const listOfOrders = document.getElementById('orderList');
     if (listOfOrders) listOfOrders.remove();
     const activeCat = document.querySelector('.aside .productCategories .active');
     if (activeCat) activeCat.classList.remove('active');
-    prevLi = '';
 }
 
 function formatDate(date) {
@@ -197,7 +202,7 @@ function toggleMyOrders(clicked) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) return;
     clearAll();
-    prevLi = '';
+    currentItem = '';
 
     if (clicked) {
         toggleCategories(myOrdersStatus[+myOrdersActive]);
@@ -260,11 +265,12 @@ function showOrderDetails(event) {
 function deleteOrder(event) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     const orderId = event.target.id.split('_')[1];
+    const newOrders = orders.filter(el => el.orderID !== +orderId);
     const orderPosition = orders.findIndex(el => el.orderID === +orderId);
     const splicedOrders = orders.toSpliced(orderPosition, 1);
 
-    if (splicedOrders.length > 0) {
-        localStorage.setItem('orders', JSON.stringify(splicedOrders));
+    if (newOrders.length > 0) {
+        localStorage.setItem('orders', JSON.stringify(newOrders));
         toggleMyOrders(false);
     } else {
         localStorage.removeItem('orders');
