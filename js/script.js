@@ -266,8 +266,6 @@ function deleteOrder(event) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     const orderId = event.target.id.split('_')[1];
     const newOrders = orders.filter(el => el.orderID !== +orderId);
-    const orderPosition = orders.findIndex(el => el.orderID === +orderId);
-    const splicedOrders = orders.toSpliced(orderPosition, 1);
 
     if (newOrders.length > 0) {
         localStorage.setItem('orders', JSON.stringify(newOrders));
