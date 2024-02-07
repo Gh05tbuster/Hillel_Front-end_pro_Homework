@@ -52,3 +52,11 @@ function toggleCategories(action) {
         categories.style.display = 'initial';
     }
 }
+
+function hidePopupWrapper(event) {
+    popupWrapper.classList.add('hidden');
+}
+
+function showPopupWrapper() {
+    popupWrapper.classList.remove('hidden');
+}

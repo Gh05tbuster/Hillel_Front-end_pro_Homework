@@ -1,6 +1,11 @@
 const prodCat = document.querySelector('.aside .productCategories');
 const prodList = document.querySelector('.section.main .productList');
 const prodDesc = document.querySelector('.section.side .productDescription');
+const myOrders = document.getElementById('myOrders');
+const popupWrapper = document.querySelector('.popupWrapper');
+const popupForm = document.querySelector('.popupWrapper .form.popup');
+const popupCloseBtn = document.querySelector('.popupWrapper .form .closeBtn');
+
 let currentItem;
 
 prodCat.addEventListener('click', showProducts);
@@ -37,10 +42,27 @@ function showDesc(event) {
      <p class='price'>${currentProduct.price} ₴</p>
     <button type='button' class='btn big main buyBtn' id='${productCard.id}'>Buy</button>`;
     const buyBtn = document.querySelector('.buyBtn');
-    buyBtn.addEventListener('click', buyProduct);
+    buyBtn.addEventListener('click', openOrderForm);
 }
 
-function buyProduct(event) {
+function openOrderForm(event) {
+    showPopupWrapper();
+    popupForm.classList.remove('hidden');
+    // buyProduct(event.target);
+}
+
+popupWrapper.addEventListener('click', closeOrderForm);
+popupCloseBtn.addEventListener('click', closeOrderForm);
+//! if click happens on the line it won't work because the condition does not match
+
+function closeOrderForm(event) {
+    if (event.currentTarget == event.target) {
+        popupForm.classList.add('hidden');
+        hidePopupWrapper();
+    }
+}
+
+function buyProduct(target) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
 
@@ -49,13 +71,13 @@ function buyProduct(event) {
         localStorage.setItem('currentOrderID', 1);
         currentOrderId = +localStorage.getItem('currentOrderID');
     }
-    const price = products.filter(product => product.id === event.target.id)[0].price;
+    const price = products.filter(product => product.id === target.id)[0].price;
     //* const newPrice = applyDiscount();
     const currDate = new Date();
     const orderData = {
         date: formatDate(currDate),
         time: formatTime(currDate),
-        productID: event.target.id,
+        productID: target.id,
         orderID: currentOrderId,
         price: price,
         //* price: newPrice,
@@ -67,7 +89,6 @@ function buyProduct(event) {
     prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
 }
 
-const myOrders = document.getElementById('myOrders');
 myOrders.addEventListener('click', () => {
     const clicked = true;
     toggleMyOrders(clicked)

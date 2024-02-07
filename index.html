@@ -30,6 +30,51 @@
         </section>
     </main>
     <footer></footer>
+    <div class="popupWrapper hidden">
+        <form action="" class="form orderForm popup hidden">
+            <div class="upperLine">
+                <h2 class="title h2">Place your order</h2>
+                <svg class="closeBtn" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <g>
+                        <path d="M7 7L25 25" stroke="#EC6F5D" stroke-width="2" />
+                        <path d="M25 7L7 25" stroke="#EC6F5D" stroke-width="2" />
+                    </g>
+                </svg>
+            </div>
+            <h4 class="title h4">Personal Info</h4>
+            <input type="text" name="name" placeholder="Full name" class="textInput name">
+            <input type="tel" name="tel" placeholder="Phone number" class="textInput tel">
+            <input type="email" name="email" placeholder="Email" class="textInput email">
+            <h4 class="title h4">Order info</h4>
+            <select name="city" class="select">
+                <option value="" selected disabled>Your City</option>
+                <option value="Kyiv">Kyiv</option>
+                <option value="Lviv">Lviv</option>
+                <option value="Odesa">Odesa</option>
+                <option value="Dnipro">Dnipro</option>
+                <option value="Kherson">Kherson</option>
+                <option value="Kharkiv">Kharkiv</option>
+            </select>
+            <select name="NPdepartment" class="select">
+                <option value="" selected disabled>Nova Post Department</option>
+                <option value="123">123</option>
+                <option value="284">284</option>
+                <option value="369">369</option>
+            </select>
+            <div id="payment">
+                <label for="prepayment"><input type="radio" value="pre" name="payment" id="prepayment">
+                    Prepayment</label>
+                <label for="postpayment"><input type="radio" value="post" name="payment" id="postpayment">
+                    Post-payment</label>
+            </div>
+            <div class="quantity">
+                <p class="text">Quantity:</p>
+                <input type="number" id="quantity" value="1">
+            </div>
+            <textarea name="message" rows="3" placeholder="Order details" class="textInput"></textarea>
+            <button type="submit" class="submit blueBtn btn main">Confirm</button>
+        </form>
+    </div>
 </body>
 <script src="./js/products.js"></script>
 <script src="./js/auxiliaryFunctions.js"></script>

@@ -66,14 +66,6 @@ select {
   line-height: normal;
 }
 
-/* ---------------------------------------- */
-
-main {
-  display: grid;
-  grid-template-columns: 1fr 4fr 2fr;
-  /* gap: 20px; */
-}
-
 .btn {
   border: none;
 }
@@ -88,6 +80,25 @@ main {
   width: 300px;
   height: 100px;
   font-size: 56px;
+}
+
+.popupWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #323264cc;
+  inset: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+/* ---------------------------------------- */
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr 2fr;
+  /* gap: 20px; */
 }
 
 .aside {
@@ -142,6 +153,8 @@ main {
   transition: none;
 }
 
+/* ------------------------------------------- */
+
 .section.main .productList {
   /* padding: 20px; */
   display: flex;
@@ -176,6 +189,8 @@ main {
 .section.main .productList .productCard .price {
   font-size: 20px;
 }
+
+/* ----------------------------------------------- */
 
 .section.side .productDescription {
   display: flex;
@@ -219,6 +234,8 @@ main {
   transform: scale(1.03);
 }
 
+/* ------------------------------------------------ */
+
 .section.main .orderDetails {
   display: flex;
   flex-direction: column;
@@ -252,4 +269,68 @@ main {
 
 .section.main .orderDetails .del:hover {
   transform: scale(1.1);
+}
+
+/* ---------------------------- */
+.orderForm.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  flex: 1 0 0;
+  width: 50%;
+  padding: 30px;
+  background-color: var(--grey-bg);
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+.orderForm.popup .upperLine {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.orderForm.popup .title.h1 {
+  font-size: 38px;
+}
+
+.orderForm.popup .closeBtn {
+  cursor: pointer;
+  align-self: start;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+
+.orderForm.popup .closeBtn:hover {
+  background-color: var(--grey-separator);
+}
+
+.orderForm.popup .title.h4 {
+  margin-top: 10px;
+}
+
+.orderForm.popup .select {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.orderForm.popup #payment {
+  display: flex;
+  gap: 20px;
+}
+
+.orderForm.popup .quantity {
+  display: flex;
+  gap: 10px;
+}
+
+.orderForm.popup .quantity #quantity {
+  width: 40px;
+}
+
+.orderForm.popup .textInput {
+  resize: none;
 }
