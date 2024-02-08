@@ -41,42 +41,56 @@
                     </g>
                 </svg>
             </div>
-            <h4 class="title h4">Personal Info</h4>
-            <input type="text" name="name" placeholder="Full name" class="textInput name">
-            <input type="tel" name="tel" placeholder="Phone number" class="textInput tel">
-            <input type="email" name="email" placeholder="Email" class="textInput email">
+            <h4 class="title h4">Contact info</h4>
+            <div class="field">
+                <input type="text" name="name" placeholder="Full name" class="textInput name input">
+                <p class="error hidden"></p>
+            </div>
+            <div class="field">
+                <input type="tel" name="tel" placeholder="Phone number" class="textInput tel input">
+                <p class="error hidden"></p>
+            </div>
+            <div class="field">
+                <input type="email" name="email" placeholder="Email" class="textInput email input">
+                <p class="error hidden"></p>
+            </div>
+
+
             <h4 class="title h4">Order info</h4>
-            <select name="city" class="select">
-                <option value="" selected disabled>Your City</option>
-                <option value="Kyiv">Kyiv</option>
-                <option value="Lviv">Lviv</option>
-                <option value="Odesa">Odesa</option>
-                <option value="Dnipro">Dnipro</option>
-                <option value="Kherson">Kherson</option>
-                <option value="Kharkiv">Kharkiv</option>
-            </select>
-            <select name="NPdepartment" class="select">
-                <option value="" selected disabled>Nova Post Department</option>
-                <option value="123">123</option>
-                <option value="284">284</option>
-                <option value="369">369</option>
-            </select>
+            <div class="field">
+                <select name="city" class="select city input">
+                    <option value="" selected disabled>Your City</option>
+                </select>
+
+                <p class="error hidden">Choose your city!</p>
+            </div>
+
+            <div class="field">
+                <select name="NPdepartment" class="select department input">
+                    <option value="" selected disabled>Nova Post Department</option>
+                </select>
+
+                <p class="error hidden">Choose Nova Post department!</p>
+            </div>
+
             <div id="payment">
                 <label for="prepayment"><input type="radio" value="pre" name="payment" id="prepayment">
                     Prepayment</label>
-                <label for="postpayment"><input type="radio" value="post" name="payment" id="postpayment">
+                <label for="postpayment"><input type="radio" value="post" name="payment" id="postpayment" checked>
                     Post-payment</label>
             </div>
+
             <div class="quantity">
                 <p class="text">Quantity:</p>
-                <input type="number" id="quantity" value="1">
+                <input type="number" id="quantity" value="1" class="input">
             </div>
-            <textarea name="message" rows="3" placeholder="Order details" class="textInput"></textarea>
-            <button type="submit" class="submit blueBtn btn main">Confirm</button>
+
+            <textarea name="message" rows="3" placeholder="Order details (optional)" class="textInput input"></textarea>
+            <button type="submit" class="submit btn main">Confirm</button>
         </form>
     </div>
 </body>
-<script src="./js/products.js"></script>
+<script src="./js/data.js"></script>
 <script src="./js/auxiliaryFunctions.js"></script>
 <script src="./js/script.js"></script>
 

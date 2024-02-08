@@ -5,16 +5,29 @@ const myOrders = document.getElementById('myOrders');
 const popupWrapper = document.querySelector('.popupWrapper');
 const popupForm = document.querySelector('.popupWrapper .form.popup');
 const popupCloseBtn = document.querySelector('.popupWrapper .form .closeBtn');
+const productQuantity = document.querySelector('.popupWrapper .form #quantity');
 
-let currentItem;
+const nameField = document.querySelector('.form .name');
+nameField.addEventListener('change', validateName);
+
+const phoneField = document.querySelector('.form .tel');
+phoneField.addEventListener('change', validatePhone);
+
+const emailField = document.querySelector('.form .email');
+emailField.addEventListener('change', validateEmail);
+
+const cityField = document.querySelector('.form .city');
+const departmentField = document.querySelector('.form .department');
+
+let activeItem;
 
 prodCat.addEventListener('click', showProducts);
 
 function showProducts(event) {
-    if (currentItem === event.target) return;
+    if (activeItem === event.target) return;
     prodList.innerHTML = ''; // comment this to spam cards
     prodDesc.innerHTML = '';
-    swapActiveLi(event.target);
+    swapActiveItem(event.target);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
@@ -46,9 +59,55 @@ function showDesc(event) {
 }
 
 function openOrderForm(event) {
-    showPopupWrapper();
-    popupForm.classList.remove('hidden');
+    showElement(popupWrapper);
+    showElement(popupForm);
+
+    const selectCity = document.querySelector('.form .field .select.city');
+    const selectDepartment = document.querySelector('.form .field .select.department');
+
+    selectCity.innerHTML = '<option value="" selected disabled>Your City</option>';
+    selectDepartment.innerHTML = '<option value="" selected disabled>Nova Post Department</option>';
+
+    citiesAndDepartments.forEach(el => {
+        selectCity.innerHTML += `
+        <option value="${el.city}">${el.city}</option>`;
+    })
+
+    selectCity.addEventListener('change', () => {
+        selectDepartment.innerHTML = '<option value="" selected disabled>Nova Post Department</option>';
+        const selectedCity = citiesAndDepartments.filter(el => el.city === selectCity.value)[0];
+
+        selectedCity.departments.forEach(dep => {
+            selectDepartment.innerHTML += `
+            <option value="${dep.number}">"${dep.number}" – ${dep.address}</option>`;
+        })
+    })
+
+    const submit = document.querySelector('.form .submit');
+    submit.addEventListener('click', validateForm);
     // buyProduct(event.target);
+}
+
+productQuantity.addEventListener('change', checkQuantity);
+
+function checkQuantity() {
+    if (productQuantity.value < 1) {
+        productQuantity.value = 1;
+    } else if (productQuantity.value > 99) {
+        productQuantity.value = 99;
+    } else {
+        return;
+    }
+}
+
+function validateForm(event) {
+    event.preventDefault();
+
+    validateName();
+    validatePhone();
+    validateEmail();
+    validateCity();
+    validateDepartment();
 }
 
 popupWrapper.addEventListener('click', closeOrderForm);
@@ -56,9 +115,9 @@ popupCloseBtn.addEventListener('click', closeOrderForm);
 //! if click happens on the line it won't work because the condition does not match
 
 function closeOrderForm(event) {
-    if (event.currentTarget == event.target) {
-        popupForm.classList.add('hidden');
-        hidePopupWrapper();
+    if (event.currentTarget === event.target) {
+        hideElement(popupWrapper);
+        hideElement(popupForm);
     }
 }
 
@@ -100,7 +159,7 @@ function toggleMyOrders(clicked) {
     const orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) return;
     clearAll();
-    currentItem = '';
+    activeItem = '';
 
     if (clicked) {
         toggleCategories(myOrdersStatus[+myOrdersActive]);
@@ -129,7 +188,7 @@ function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
 
-    swapActiveLi(selectedOrder);
+    swapActiveItem(selectedOrder);
     const orders = JSON.parse(localStorage.getItem('orders'));
     const thisOrder = orders.filter(order => order.orderID === +selectedOrder.id)[0];
     const thisProduct = products.filter(product => product.id === thisOrder.productID)[0];

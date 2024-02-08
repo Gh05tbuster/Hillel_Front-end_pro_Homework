@@ -68,12 +68,13 @@ select {
 
 .btn {
   border: none;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .btn.main {
   color: #fff;
   background-color: var(--main-regular);
-  cursor: pointer;
 }
 
 .btn.big {
@@ -115,6 +116,7 @@ main {
 
 .aside .btn#myOrders {
   border: 2px solid var(--main-regular);
+  border-radius: 0;
 }
 
 .aside .btn#myOrders:hover {
@@ -285,6 +287,12 @@ main {
   max-width: 500px;
 }
 
+.orderForm.popup .field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .orderForm.popup .upperLine {
   display: flex;
   justify-content: space-between;
@@ -312,6 +320,18 @@ main {
   margin-top: 10px;
 }
 
+.orderForm.popup .input {
+  border: 1px solid var(--main-alt);
+  outline: none;
+  border-radius: 8px !important;
+  padding-left: 3px;
+  min-height: 30px;
+}
+
+.orderForm.popup .input::placeholder {
+  color: var(--main-soft);
+}
+
 .orderForm.popup .select {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -328,9 +348,25 @@ main {
 }
 
 .orderForm.popup .quantity #quantity {
-  width: 40px;
+  width: 50px;
 }
 
 .orderForm.popup .textInput {
   resize: none;
+}
+
+.orderForm.popup .submit {
+  height: 30px;
+  border: 2px solid var(--main-regular);
+}
+
+.orderForm.popup .submit:hover {
+  color: var(--main-regular);
+  background-color: #fff;
+}
+
+.error {
+  color: #f00;
+  font-size: 12px;
+  font-weight: bold;
 }
