@@ -25,7 +25,7 @@ prodCat.addEventListener('click', showProducts);
 
 function showProducts(event) {
     if (activeItem === event.target) return;
-    prodList.innerHTML = ''; // comment this to spam cards
+    prodList.innerHTML = '';
     prodDesc.innerHTML = '';
     swapActiveItem(event.target);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
@@ -46,6 +46,7 @@ prodList.addEventListener('click', showDesc);
 function showDesc(event) {
     const productCard = event.target.closest('.productCard');
     if (!productCard) return;
+
     prodDesc.innerHTML = '';
     const currentProduct = products.find(el => el.id === productCard.id);
     prodDesc.innerHTML = `
@@ -54,11 +55,14 @@ function showDesc(event) {
      <ul class='params'>${getParameterList(currentProduct.parameters)}</ul>
      <p class='price'>${currentProduct.price} ₴</p>
     <button type='button' class='btn big main buyBtn' id='${productCard.id}'>Buy</button>`;
+
+    resetQuantity();
+
     const buyBtn = document.querySelector('.buyBtn');
     buyBtn.addEventListener('click', openOrderForm);
 }
 
-function openOrderForm(event) {
+function openOrderForm() {
     showElement(popupWrapper);
     showElement(popupForm);
 
@@ -96,6 +100,8 @@ function checkQuantity() {
         productQuantity.value = 99;
     }
     productQuantity.value = Math.floor(productQuantity.value);
+
+    setSum(productQuantity.value);
 }
 
 function validateForm(event) {
@@ -112,9 +118,8 @@ function validateForm(event) {
     else buyProduct(buyBtnId);
 }
 
-popupWrapper.addEventListener('click', closeOrderForm);
+popupWrapper.addEventListener('mousedown', closeOrderForm);
 popupCloseBtn.addEventListener('click', closeOrderForm);
-//! if click happens on the line it won't work because the condition does not match
 
 function closeOrderForm(event) {
     if (event.currentTarget === event.target) {
@@ -133,7 +138,7 @@ function buyProduct(prodId) {
         currentOrderId = +localStorage.getItem('currentOrderID');
     }
 
-    const price = products.filter(product => product.id === prodId)[0].price;
+    const price = products.find(product => product.id === prodId).price;
     //* const newPrice = applyDiscount();
     const currDate = new Date();
     const orderData = {
@@ -150,6 +155,7 @@ function buyProduct(prodId) {
         customer_city: cityField.value,
         customer_department: departmentField.value,
         customer_paymentMethod: document.querySelector('#payment input:checked').value,
+        customer_wishes: document.querySelector('#wishes').value,
     }
     orders.push(orderData);
 
@@ -159,8 +165,9 @@ function buyProduct(prodId) {
     hideElement(popupWrapper);
     hideElement(popupForm);
     clearAll();
-    prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
 
+    const thisProduct = products.find(product => product.id === orderData.productID);
+    renderOrderDetails(orderData, thisProduct, false);
 }
 
 myOrders.addEventListener('click', () => {
@@ -188,10 +195,11 @@ function toggleMyOrders(clicked) {
     const orderList = document.createElement('ul');
     orderList.id = 'orderList';
 
-    orders.forEach(order => {
+    orders.reverse().forEach(order => {
         orderList.innerHTML += `<li id='${order.orderID}'>
         <p class='date txt'>${order.date}</p>
         <p class='price txt'>${order.price} ₴</p>
+        <span class='quantitySpan'>x${order.quantity}</span>
         </li>`;
     });
     aside.append(orderList);
@@ -205,22 +213,10 @@ function showOrderDetails(event) {
 
     swapActiveItem(selectedOrder);
     const orders = JSON.parse(localStorage.getItem('orders'));
-    const thisOrder = orders.filter(order => order.orderID === +selectedOrder.id)[0];
-    const thisProduct = products.filter(product => product.id === thisOrder.productID)[0];
+    const thisOrder = orders.find(order => order.orderID === +selectedOrder.id);
+    const thisProduct = products.find(product => product.id === thisOrder.productID);
 
-    prodList.innerHTML = `<div class='orderDetails'>
-    <img src='${thisProduct.img}'>
-    <div class='name-n-price'> 
-        <h3>${thisProduct.name}</h3>
-        <p class="price">${thisOrder.price} ₴</p>
-    </div>
-    <div class='date-n-time'>
-        <p class='date'>${thisOrder.date}</p>
-        <p class='time'>${thisOrder.time}</p>
-    </div>
-    <p class='del' id='del_${thisOrder.orderID}'>Delete</p>
-    </div>`;
-
+    renderOrderDetails(thisOrder, thisProduct, true);
     const del = document.querySelector('.orderDetails .del');
     del.addEventListener('click', deleteOrder);
 }

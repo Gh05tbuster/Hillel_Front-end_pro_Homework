@@ -251,7 +251,15 @@ main {
 .section.main .orderDetails .name-n-price {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 25px;
+}
+
+.quantitySpan {
+  font-weight: normal;
+  font-size: 14px;
+  /* border: 1px solid var(--main-regular);
+  border-radius: 5px; */
+  padding: 2px;
 }
 
 .section.main .orderDetails .name-n-price .price {
@@ -310,6 +318,7 @@ main {
   height: 32px;
   flex-shrink: 0;
   border-radius: 8px;
+  -webkit-user-drag: none;
 }
 
 .orderForm.popup .closeBtn:hover {
@@ -340,6 +349,16 @@ main {
 .orderForm.popup #payment {
   display: flex;
   gap: 20px;
+}
+
+.orderForm.popup .quantityAndSum {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.orderForm.popup .quantityAndSum .text {
+  line-height: 30px;
 }
 
 .orderForm.popup .quantity {

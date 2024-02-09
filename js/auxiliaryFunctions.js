@@ -1,3 +1,11 @@
+function hideElement(el) {
+    el.classList.add('hidden');
+}
+
+function showElement(el) {
+    el.classList.remove('hidden');
+}
+
 function getBackImg(img) {
     const arr = img.split('_');
     const newArr = arr.map(el => (el === 'front.png' ? 'back.png' : el));
@@ -16,6 +24,18 @@ function swapActiveItem(target) {
     if (activeItem) activeItem.classList.remove('active');
     activeItem = target;
     target.classList.add('active');
+}
+
+function resetQuantity() {
+    productQuantity.value = 1;
+    setSum(1);
+}
+
+function setSum(n) {
+    const currentItemPriceEl = document.querySelector('.section.side .productDescription .price');
+    const currentItemPrice = currentItemPriceEl.textContent.split(' ')[0];
+    const sum = document.querySelector('.quantityAndSum .price');
+    sum.innerHTML = `Total: ${n * currentItemPrice} ₴`;
 }
 
 function validateName() {
@@ -185,10 +205,32 @@ function toggleCategories(action) {
     }
 }
 
-function hideElement(el) {
-    el.classList.add('hidden');
-}
-
-function showElement(el) {
-    el.classList.remove('hidden');
+function renderOrderDetails(order, product, fullInfo) {
+    if (fullInfo) {
+        prodList.innerHTML = `<div class='orderDetails'>
+        <img src='${product.img}'>
+        <div class='name-n-price'> 
+            <h3><span class='quantitySpan'>x${order.quantity}</span> ${product.name}</h3>
+            <p class="price">${order.price * order.quantity} ₴</p>
+        </div>
+        <div class='date-n-time'>
+            <p class='date'>${order.date}</p>
+            <p class='time'>${order.time}</p>
+        </div>
+        <p class='del' id='del_${order.orderID}'>Delete</p>
+        </div>`;
+    } else {
+        prodList.innerHTML = `<div class='orderDetails'>
+        <h2>Thanks for the purchase!</h2>
+        <img src='${product.img}'>
+        <div class='name-n-price'> 
+        <h3><span class='quantitySpan'>x${order.quantity}</span> ${product.name}</h3>
+            <p class="price">${order.price * order.quantity} ₴</p>
+        </div>
+        <div class='date-n-time'>
+            <p class='date'>${order.date}</p>
+            <p class='time'>${order.time}</p>
+        </div>
+        </div>`;
+    }
 }

@@ -34,12 +34,7 @@
         <form action="" method="post" class="form orderForm popup hidden">
             <div class="upperLine">
                 <h2 class="title h2">Place your order</h2>
-                <svg class="closeBtn" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                    <g>
-                        <path d="M7 7L25 25" stroke="#EC6F5D" stroke-width="2" />
-                        <path d="M25 7L7 25" stroke="#EC6F5D" stroke-width="2" />
-                    </g>
-                </svg>
+                <img src="./img/close.svg" alt="" class="closeBtn">
             </div>
             <h4 class="title h4">Contact info</h4>
             <div class="field">
@@ -80,12 +75,15 @@
                     Post-payment</label>
             </div>
 
-            <div class="quantity">
-                <p class="text">Quantity:</p>
-                <input type="number" id="quantity" value="1" class="input">
+            <div class="quantityAndSum">
+                <div class="quantity">
+                    <p class="text">Quantity:</p>
+                    <input type="number" id="quantity" value="1" class="input">
+                </div>
+                <p class="text price title h3"></p>
             </div>
-
-            <textarea name="message" rows="3" placeholder="Order details (optional)" class="textInput input"></textarea>
+            <textarea name="message" rows="3" placeholder="Order details (optional)" class="textInput input"
+                id="wishes"></textarea>
             <button type="submit" class="submit btn main">Confirm</button>
         </form>
     </div>
