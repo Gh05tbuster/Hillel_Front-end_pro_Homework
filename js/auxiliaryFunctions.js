@@ -40,7 +40,7 @@ function setSum(n) {
 
 function validateName() {
     const errorLabel = document.querySelector('.form .name + .error');
-    const wrongChars = /[`а-я0-9!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
+    const wrongChars = /[`0-9!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
 
     if (nameField.value === '') {
         errorLabel.innerHTML = 'Enter your name!';
