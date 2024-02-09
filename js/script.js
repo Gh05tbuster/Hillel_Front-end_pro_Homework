@@ -85,7 +85,6 @@ function openOrderForm(event) {
 
     const submit = document.querySelector('.form .submit');
     submit.addEventListener('click', validateForm);
-    // buyProduct(event.target);
 }
 
 productQuantity.addEventListener('change', checkQuantity);
@@ -95,19 +94,22 @@ function checkQuantity() {
         productQuantity.value = 1;
     } else if (productQuantity.value > 99) {
         productQuantity.value = 99;
-    } else {
-        return;
     }
+    productQuantity.value = Math.floor(productQuantity.value);
 }
 
 function validateForm(event) {
     event.preventDefault();
+    const buyBtnId = document.querySelector('.buyBtn').id;
+    let validated = [];
+    validated.push(validateName());
+    validated.push(validatePhone());
+    validated.push(validateEmail());
+    validated.push(validateCity());
+    validated.push(validateDepartment());
 
-    validateName();
-    validatePhone();
-    validateEmail();
-    validateCity();
-    validateDepartment();
+    if (validated.includes(0)) return;
+    else buyProduct(buyBtnId);
 }
 
 popupWrapper.addEventListener('click', closeOrderForm);
@@ -121,7 +123,7 @@ function closeOrderForm(event) {
     }
 }
 
-function buyProduct(target) {
+function buyProduct(prodId) {
     let orders = JSON.parse(localStorage.getItem('orders'));
     if (!orders) orders = [];
 
@@ -130,22 +132,35 @@ function buyProduct(target) {
         localStorage.setItem('currentOrderID', 1);
         currentOrderId = +localStorage.getItem('currentOrderID');
     }
-    const price = products.filter(product => product.id === target.id)[0].price;
+
+    const price = products.filter(product => product.id === prodId)[0].price;
     //* const newPrice = applyDiscount();
     const currDate = new Date();
     const orderData = {
         date: formatDate(currDate),
         time: formatTime(currDate),
-        productID: target.id,
+        productID: prodId,
         orderID: currentOrderId,
+        quantity: +productQuantity.value,
         price: price,
         //* price: newPrice,
+        customer_name: nameField.value,
+        customer_phone: phoneField.value,
+        customer_email: emailField.value,
+        customer_city: cityField.value,
+        customer_department: departmentField.value,
+        customer_paymentMethod: document.querySelector('#payment input:checked').value,
     }
     orders.push(orderData);
+
     localStorage.setItem('orders', JSON.stringify(orders));
     localStorage.setItem('currentOrderID', +currentOrderId + 1);
+    submitForm(orderData);
+    hideElement(popupWrapper);
+    hideElement(popupForm);
     clearAll();
     prodList.innerHTML = '<h2>Thanks for the purchase!</h2>';
+
 }
 
 myOrders.addEventListener('click', () => {

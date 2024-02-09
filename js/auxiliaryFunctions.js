@@ -25,23 +25,24 @@ function validateName() {
     if (nameField.value === '') {
         errorLabel.innerHTML = 'Enter your name!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (wrongChars.test(nameField.value)) {
         errorLabel.innerHTML = 'No special characters are allowed in the name!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (nameField.value.split(' ').length < 2) {
         errorLabel.innerHTML = 'Full name should contain at least 2 words!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     errorLabel.innerHTML = '';
     hideElement(errorLabel);
+    return 1;
 }
 
 function validatePhone() {
@@ -50,30 +51,31 @@ function validatePhone() {
     if (phoneField.value === '') {
         errorLabel.innerHTML = 'Enter your phone number!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (phoneField.value.length < 7) {
         errorLabel.innerHTML = 'Phone number must contain at least 7 numbers';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (isNaN(phoneField.value)) {
         errorLabel.innerHTML = 'Phone number could contain only numbers (and "+" at the beginning)!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     const splittedPhone = phoneField.value.split('');
     if (splittedPhone[0] === '.' || splittedPhone[0] === '-') {
         errorLabel.innerHTML = 'Phone number could contain only numbers (and "+" at the beginning)!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     errorLabel.innerHTML = '';
     hideElement(errorLabel);
+    return 1;
 }
 
 function validateEmail() {
@@ -83,13 +85,13 @@ function validateEmail() {
     if (emailField.value === '') {
         errorLabel.innerHTML = 'Enter your email!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (wrongChars.test(emailField.value)) {
         errorLabel.innerHTML = 'Some of these characters are not allowed in the email!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     const emailSplitted = emailField.value.split('@');
@@ -97,17 +99,18 @@ function validateEmail() {
     if (emailSplitted.length < 2) {
         errorLabel.innerHTML = 'Email must contain "@" !';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     if (emailSplitted.includes('')) {
         errorLabel.innerHTML = 'This is not an email!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     errorLabel.innerHTML = '';
     hideElement(errorLabel);
+    return 1;
 }
 
 function validateCity() {
@@ -116,11 +119,12 @@ function validateCity() {
     if (cityField.value === '') {
         errorLabel.innerHTML = 'Select your city!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     errorLabel.innerHTML = '';
     hideElement(errorLabel);
+    return 1;
 }
 
 function validateDepartment() {
@@ -129,11 +133,21 @@ function validateDepartment() {
     if (departmentField.value === '') {
         errorLabel.innerHTML = 'Select the Nova Post department!';
         showElement(errorLabel);
-        return;
+        return 0;
     }
 
     errorLabel.innerHTML = '';
     hideElement(errorLabel);
+    return 1;
+}
+
+async function submitForm(data) {
+    // await fetch('', {
+    //     method: 'POST',
+    //     body: data,
+    // })
+
+    console.log(data);
 }
 
 function formatDate(date) {
