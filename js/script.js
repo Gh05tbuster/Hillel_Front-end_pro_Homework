@@ -17,7 +17,10 @@ const emailField = document.querySelector('.form .email');
 emailField.addEventListener('change', validateEmail);
 
 const cityField = document.querySelector('.form .city');
+cityField.addEventListener('change', validateCity);
+
 const departmentField = document.querySelector('.form .department');
+departmentField.addEventListener('change', validateDepartment);
 
 let activeItem;
 
