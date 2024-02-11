@@ -20,12 +20,6 @@ function getParameterList(p) {
     return params;
 }
 
-function swapActiveItem(target, activeItem) {
-    if (activeItem) activeItem.classList.remove('active');
-    activeItem = target;
-    target.classList.add('active');
-}
-
 function resetQuantity(productQuantity) {
     productQuantity.value = 1;
     setSum(1);
@@ -207,7 +201,7 @@ function renderOrderDetails(prodList, order, product, fullInfo) {
 }
 
 export {
-    hideElement, showElement, getBackImg, getParameterList, swapActiveItem, resetQuantity, setSum,
+    hideElement, showElement, getBackImg, getParameterList, resetQuantity, setSum,
     validateName, validatePhone, validateEmail, validateCity, validateDepartment,
     showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
 };

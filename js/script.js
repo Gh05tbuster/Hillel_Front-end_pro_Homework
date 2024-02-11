@@ -1,6 +1,6 @@
 import { products, citiesAndDepartments } from './data.js';
 import {
-    hideElement, showElement, getBackImg, getParameterList, swapActiveItem, resetQuantity, setSum,
+    hideElement, showElement, getBackImg, getParameterList, resetQuantity, setSum,
     validateName, validatePhone, validateEmail, validateCity, validateDepartment,
     showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
 } from './helpers.js';
@@ -37,7 +37,7 @@ function showProducts(event) {
     if (activeItem === event.target) return;
     prodList.innerHTML = '';
     prodDesc.innerHTML = '';
-    swapActiveItem(event.target, activeItem);
+    swapActiveItem(event.target);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
@@ -231,7 +231,7 @@ function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
 
-    swapActiveItem(selectedOrder, activeItem);
+    swapActiveItem(selectedOrder);
     const orders = JSON.parse(localStorage.getItem('orders'));
     const thisOrder = orders.find(order => order.orderID === +selectedOrder.id);
     const thisProduct = products.find(product => product.id === thisOrder.productID);
@@ -239,6 +239,12 @@ function showOrderDetails(event) {
     renderOrderDetails(prodList, thisOrder, thisProduct, true);
     const del = document.querySelector('.orderDetails .del');
     del.addEventListener('click', deleteOrder);
+}
+
+function swapActiveItem(target) {
+    if (activeItem) activeItem.classList.remove('active');
+    activeItem = target;
+    target.classList.add('active');
 }
 
 function deleteOrder(event) {
