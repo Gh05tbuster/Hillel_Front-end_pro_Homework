@@ -1,3 +1,10 @@
+import { products, citiesAndDepartments } from './data';
+import {
+    hideElement, showElement, getBackImg, getParameterList, swapActiveItem, resetQuantity, setSum,
+    validateName, validatePhone, validateEmail, validateCity, validateDepartment,
+    showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
+} from './helpers';
+
 const prodCat = document.querySelector('.aside .productCategories');
 const prodList = document.querySelector('.section.main .productList');
 const prodDesc = document.querySelector('.section.side .productDescription');
@@ -8,19 +15,19 @@ const popupCloseBtn = document.querySelector('.popupWrapper .form .closeBtn');
 const productQuantity = document.querySelector('.popupWrapper .form #quantity');
 
 const nameField = document.querySelector('.form .name');
-nameField.addEventListener('change', validateName);
+nameField.addEventListener('change', () => validateName(nameField.value, '.form .name + .error'));
 
 const phoneField = document.querySelector('.form .tel');
-phoneField.addEventListener('change', validatePhone);
+phoneField.addEventListener('change', () => validatePhone(phoneField.value, '.form .tel + .error'));
 
 const emailField = document.querySelector('.form .email');
-emailField.addEventListener('change', validateEmail);
+emailField.addEventListener('change', () => validateEmail(emailField.value, '.form .email + .error'));
 
 const cityField = document.querySelector('.form .city');
-cityField.addEventListener('change', validateCity);
+cityField.addEventListener('change', () => validateCity(cityField.value, '.form .city + .error'));
 
 const departmentField = document.querySelector('.form .department');
-departmentField.addEventListener('change', validateDepartment);
+departmentField.addEventListener('change', () => validateDepartment(departmentField.value, '.form .department + .error'));
 
 let activeItem;
 
@@ -30,7 +37,7 @@ function showProducts(event) {
     if (activeItem === event.target) return;
     prodList.innerHTML = '';
     prodDesc.innerHTML = '';
-    swapActiveItem(event.target);
+    swapActiveItem(event.target, activeItem);
     const filteredProducts = products.filter(product => product.categories === event.target.id);
     filteredProducts.forEach(product => {
         const card = document.createElement('div');
@@ -59,7 +66,7 @@ function showDesc(event) {
      <p class='price'>${currentProduct.price} ₴</p>
     <button type='button' class='btn big main buyBtn' id='${productCard.id}'>Buy</button>`;
 
-    resetQuantity();
+    resetQuantity(productQuantity);
 
     const buyBtn = document.querySelector('.buyBtn');
     buyBtn.addEventListener('click', openOrderForm);
@@ -111,11 +118,11 @@ function validateForm(event) {
     event.preventDefault();
     const buyBtnId = document.querySelector('.buyBtn').id;
     let validated = [];
-    validated.push(validateName());
-    validated.push(validatePhone());
-    validated.push(validateEmail());
-    validated.push(validateCity());
-    validated.push(validateDepartment());
+    validated.push(validateName(nameField.value, '.form .name + .error'));
+    validated.push(validatePhone(phoneField.value, '.form .tel + .error'));
+    validated.push(validateEmail(emailField.value, '.form .email + .error'));
+    validated.push(validateCity(cityField.value, '.form .city + .error'));
+    validated.push(validateDepartment(departmentField.value, '.form .department + .error'));
 
     if (validated.includes(0)) return;
     else buyProduct(buyBtnId);
@@ -170,7 +177,17 @@ function buyProduct(prodId) {
     clearAll();
 
     const thisProduct = products.find(product => product.id === orderData.productID);
-    renderOrderDetails(orderData, thisProduct, false);
+    renderOrderDetails(prodList, orderData, thisProduct, false);
+}
+
+function clearAll() {
+    activeItem = '';
+    prodDesc.innerHTML = '';
+    prodList.innerHTML = '';
+    const listOfOrders = document.getElementById('orderList');
+    if (listOfOrders) listOfOrders.remove();
+    const activeCat = document.querySelector('.aside .productCategories .active');
+    if (activeCat) activeCat.classList.remove('active');
 }
 
 myOrders.addEventListener('click', () => {
@@ -187,7 +204,7 @@ function toggleMyOrders(clicked) {
     activeItem = '';
 
     if (clicked) {
-        toggleCategories(myOrdersStatus[+myOrdersActive]);
+        toggleCategories(myOrdersStatus[+myOrdersActive], '.aside .productCategories');
         myOrdersActive = !myOrdersActive;
         myOrders.innerText = myOrdersStatus[+myOrdersActive];
     }
@@ -214,12 +231,12 @@ function showOrderDetails(event) {
     const selectedOrder = event.target.closest('li');
     if (!selectedOrder) return;
 
-    swapActiveItem(selectedOrder);
+    swapActiveItem(selectedOrder, activeItem);
     const orders = JSON.parse(localStorage.getItem('orders'));
     const thisOrder = orders.find(order => order.orderID === +selectedOrder.id);
     const thisProduct = products.find(product => product.id === thisOrder.productID);
 
-    renderOrderDetails(thisOrder, thisProduct, true);
+    renderOrderDetails(prodList, thisOrder, thisProduct, true);
     const del = document.querySelector('.orderDetails .del');
     del.addEventListener('click', deleteOrder);
 }
@@ -234,7 +251,7 @@ function deleteOrder(event) {
         toggleMyOrders(false);
     } else {
         localStorage.removeItem('orders');
-        toggleCategories('Categories');
+        toggleCategories('Categories', '.aside .productCategories');
         myOrders.innerText = 'My orders';
         clearAll();
     }

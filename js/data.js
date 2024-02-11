@@ -203,3 +203,5 @@ const citiesAndDepartments = [
         ]
     },
 ]
+
+export { products, citiesAndDepartments };

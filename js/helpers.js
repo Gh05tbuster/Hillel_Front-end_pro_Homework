@@ -20,13 +20,13 @@ function getParameterList(p) {
     return params;
 }
 
-function swapActiveItem(target) {
+function swapActiveItem(target, activeItem) {
     if (activeItem) activeItem.classList.remove('active');
     activeItem = target;
     target.classList.add('active');
 }
 
-function resetQuantity() {
+function resetQuantity(productQuantity) {
     productQuantity.value = 1;
     setSum(1);
 }
@@ -38,19 +38,19 @@ function setSum(n) {
     sum.innerHTML = `Total: ${n * currentItemPrice} ₴`;
 }
 
-function validateName() {
-    const errorLabel = document.querySelector('.form .name + .error');
+function validateName(name, selector) {
+    const errorLabel = document.querySelector(selector);
     const wrongChars = /[`0-9!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~]/;
 
-    if (nameField.value === '') {
+    if (name === '') {
         return showError(errorLabel, "Enter your name!");
     }
 
-    if (wrongChars.test(nameField.value)) {
+    if (wrongChars.test(name)) {
         return showError(errorLabel, 'No special characters are allowed in the name!');
     }
 
-    const splittedName = nameField.value.trim().split(' ');
+    const splittedName = name.trim().split(' ');
     if (splittedName.length < 2) {
         return showError(errorLabel, 'Full name should contain at least 2 words!');
     }
@@ -60,23 +60,23 @@ function validateName() {
     return 1;
 }
 
-function validatePhone() {
-    const errorLabel = document.querySelector('.form .tel + .error');
+function validatePhone(phone, selector) {
+    const errorLabel = document.querySelector(selector);
     const minPhoneLength = 7;
 
-    if (phoneField.value === '') {
+    if (phone === '') {
         return showError(errorLabel, 'Enter your phone number!');
     }
 
-    if (phoneField.value.length < minPhoneLength) {
+    if (phone.length < minPhoneLength) {
         return showError(errorLabel, 'Phone number must contain at least 7 numbers');
     }
 
-    if (isNaN(phoneField.value)) {
+    if (isNaN(phone)) {
         return showError(errorLabel, 'Phone number could contain only numbers (and "+" at the beginning)!');
     }
 
-    const splittedPhone = phoneField.value.split('');
+    const splittedPhone = phone.split('');
     if (splittedPhone[0] === '.' || splittedPhone[0] === '-') {
         return showError(errorLabel, 'Phone number could contain only numbers (and "+" at the beginning)!');
     }
@@ -86,19 +86,19 @@ function validatePhone() {
     return 1;
 }
 
-function validateEmail() {
-    const errorLabel = document.querySelector('.form .email + .error');
+function validateEmail(email, selector) {
+    const errorLabel = document.querySelector(selector);
     const wrongChars = /[`а-яА-Я#()\[\]{};:"\\|,<>\/]/;
 
-    if (emailField.value === '') {
+    if (email === '') {
         return showError(errorLabel, 'Enter your email!');
     }
 
-    if (wrongChars.test(emailField.value)) {
+    if (wrongChars.test(email)) {
         return showError(errorLabel, 'Some of these characters are not allowed in the email!');
     }
 
-    const emailSplitted = emailField.value.split('@');
+    const emailSplitted = email.split('@');
     if (emailSplitted.length < 2) {
         return showError(errorLabel, 'Email must contain "@" !');
     }
@@ -112,10 +112,10 @@ function validateEmail() {
     return 1;
 }
 
-function validateCity() {
-    const errorLabel = document.querySelector('.form .city + .error');
+function validateCity(city, selector) {
+    const errorLabel = document.querySelector(selector);
 
-    if (cityField.value === '') {
+    if (city === '') {
         return showError(errorLabel, 'Select your city!');
     }
 
@@ -124,10 +124,10 @@ function validateCity() {
     return 1;
 }
 
-function validateDepartment() {
-    const errorLabel = document.querySelector('.form .department + .error');
+function validateDepartment(department, selector) {
+    const errorLabel = document.querySelector(selector);
 
-    if (departmentField.value === '') {
+    if (department === '') {
         return showError(errorLabel, 'Select the Nova Post department!');
     }
 
@@ -167,26 +167,16 @@ function formatTime(date) {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-function clearAll() {
-    activeItem = '';
-    prodDesc.innerHTML = '';
-    prodList.innerHTML = '';
-    const listOfOrders = document.getElementById('orderList');
-    if (listOfOrders) listOfOrders.remove();
-    const activeCat = document.querySelector('.aside .productCategories .active');
-    if (activeCat) activeCat.classList.remove('active');
-}
-
-function toggleCategories(action) {
-    const categories = document.querySelector('.aside .productCategories');
+function toggleCategories(action, selector) {
+    const categories = document.querySelector(selector);
     if (action === 'My orders') {
-        categories.style.display = 'none';
+        hideElement(categories);
     } else if (action === 'Categories') {
-        categories.style.display = 'initial';
+        showElement(categories);
     }
 }
 
-function renderOrderDetails(order, product, fullInfo) {
+function renderOrderDetails(prodList, order, product, fullInfo) {
     if (fullInfo) {
         prodList.innerHTML = `<div class='orderDetails'>
         <img src='${product.img}'>
@@ -202,7 +192,7 @@ function renderOrderDetails(order, product, fullInfo) {
         </div>`;
     } else {
         prodList.innerHTML = `<div class='orderDetails'>
-        <h2>Thanks for the purchase!</h2>
+        <h2>Thanks for the order!</h2>
         <img src='${product.img}'>
         <div class='name-n-price'> 
         <h3><span class='quantitySpan'>x${order.quantity}</span> ${product.name}</h3>
@@ -215,3 +205,9 @@ function renderOrderDetails(order, product, fullInfo) {
         </div>`;
     }
 }
+
+export {
+    hideElement, showElement, getBackImg, getParameterList, swapActiveItem, resetQuantity, setSum,
+    validateName, validatePhone, validateEmail, validateCity, validateDepartment,
+    showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
+};
