@@ -1,6 +1,6 @@
 import { products, citiesAndDepartments } from './data.js';
 import {
-    hideElement, showElement, getBackImg, getParameterList, resetQuantity, setSum,
+    hideElement, showElement, getBackImg, getParameterList, resetQuantity, resetTextInput, setSum,
     validateName, validatePhone, validateEmail, validateCity, validateDepartment,
     showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
 } from './helpers.js';
@@ -13,6 +13,7 @@ const popupWrapper = document.querySelector('.popupWrapper');
 const popupForm = document.querySelector('.popupWrapper .form.popup');
 const popupCloseBtn = document.querySelector('.popupWrapper .form .closeBtn');
 const productQuantity = document.querySelector('.popupWrapper .form #quantity');
+const customerWishes = document.querySelector('#wishes');
 
 const nameField = document.querySelector('.form .name');
 nameField.addEventListener('change', () => validateName(nameField.value, '.form .name + .error'));
@@ -67,6 +68,7 @@ function showDesc(event) {
     <button type='button' class='btn big main buyBtn' id='${productCard.id}'>Buy</button>`;
 
     resetQuantity(productQuantity);
+    resetTextInput(customerWishes);
 
     const buyBtn = document.querySelector('.buyBtn');
     buyBtn.addEventListener('click', openOrderForm);
@@ -165,7 +167,7 @@ function buyProduct(prodId) {
         customer_city: cityField.value,
         customer_department: departmentField.value,
         customer_paymentMethod: document.querySelector('#payment input:checked').value,
-        customer_wishes: document.querySelector('#wishes').value,
+        customer_wishes: customerWishes.value,
     }
     orders.push(orderData);
 

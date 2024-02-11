@@ -25,6 +25,10 @@ function resetQuantity(productQuantity) {
     setSum(1);
 }
 
+function resetTextInput(input) {
+    input.value = '';
+}
+
 function setSum(n) {
     const currentItemPriceEl = document.querySelector('.section.side .productDescription .price');
     const currentItemPrice = currentItemPriceEl.textContent.split(' ')[0];
@@ -201,7 +205,7 @@ function renderOrderDetails(prodList, order, product, fullInfo) {
 }
 
 export {
-    hideElement, showElement, getBackImg, getParameterList, resetQuantity, setSum,
+    hideElement, showElement, getBackImg, getParameterList, resetQuantity, resetTextInput, setSum,
     validateName, validatePhone, validateEmail, validateCity, validateDepartment,
     showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
 };
