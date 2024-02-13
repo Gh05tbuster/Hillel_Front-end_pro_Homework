@@ -40,11 +40,17 @@ const comment = `
 Ти ж мене, молодого, з ума розуму звела.
 `;
 
-let newComment = comment;
-blackListWords.forEach(word => {
-    let stars = '*'.repeat(word.length - 2);
-    newComment = newComment.replaceAll(word, `${word[0]}${stars}${word[word.length - 1]}`);
-});
+function filterBadWords(string, badWords) {
+    let newComment = string;
+    badWords.forEach(word => {
+        const stars = '*'.repeat(word.length - 2);
+        newComment = newComment.replaceAll(word, `${word[0]}${stars}${word[word.length - 1]}`);
+    });
+    return newComment;
+}
+
+const filteredComment = filterBadWords(comment, blackListWords);
+console.log(filteredComment);
 
 // let newComment = comment;
 // blackListWords.forEach(word => {
@@ -52,5 +58,3 @@ blackListWords.forEach(word => {
 //     let stars = '*'.repeat(word.length - 2);
 //     newComment = newComment.replaceAll(regex, `${word[0]}${stars}${word[word.length - 1]}`);
 // });
-
-console.log(newComment);
