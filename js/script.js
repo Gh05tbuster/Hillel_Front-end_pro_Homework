@@ -41,12 +41,11 @@ const comment = `
 `;
 
 function filterBadWords(string, badWords) {
-    let newComment = string;
     badWords.forEach(word => {
         const stars = '*'.repeat(word.length - 2);
-        newComment = newComment.replaceAll(word, `${word[0]}${stars}${word[word.length - 1]}`);
+        string = string.replaceAll(word, `${word[0]}${stars}${word[word.length - 1]}`);
     });
-    return newComment;
+    return string;
 }
 
 const filteredComment = filterBadWords(comment, blackListWords);
