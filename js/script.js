@@ -40,16 +40,16 @@ const comment = `
 Ти ж мене, молодого, з ума розуму звела.
 `;
 
-function filterBadWords(string, badWords) {
+function censor(string, badWords) {
     badWords.forEach(word => {
-        const stars = '*'.repeat(word.length - 2);
-        string = string.replaceAll(word, `${word[0]}${stars}${word[word.length - 1]}`);
+        const asterisks = '*'.repeat(word.length - 2);
+        string = string.replaceAll(word, `${word[0]}${asterisks}${word[word.length - 1]}`);
     });
     return string;
 }
 
-const filteredComment = filterBadWords(comment, blackListWords);
-console.log(filteredComment);
+const censoredComment = censor(comment, blackListWords);
+console.log(censoredComment);
 
 // let newComment = comment;
 // blackListWords.forEach(word => {
