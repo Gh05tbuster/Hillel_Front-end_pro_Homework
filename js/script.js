@@ -1,6 +1,7 @@
 const blackListWords = [
     'підманула', 'підвела',
-    'понеділок', 'вівторок', 'середу', 'четвер', 'п’ятницю', 'суботу', 'неділю'
+    'понеділок', 'вівторок', 'середу', 'четвер', 'п’ятницю', 'суботу', 'неділю',
+    'bitch'
 ];
 
 const comment = `
@@ -37,7 +38,7 @@ const comment = `
 Я казала у неділю – підем разом на весілля.
 Я прийшов, тебе нема, підманула, підвела.
 Ти ж мене підманула, ти ж мене підвела.
-Ти ж мене, молодого, з ума розуму звела.
+Ти ж мене, молодого, з ума розуму звела bitch.
 `;
 
 function censor(string, badWords) {
@@ -51,9 +52,15 @@ function censor(string, badWords) {
 const censoredComment = censor(comment, blackListWords);
 console.log(censoredComment);
 
-// let newComment = comment;
-// blackListWords.forEach(word => {
-//     let regex = new RegExp(`\\b${word}\\b`, 'gi');
-//     let stars = '*'.repeat(word.length - 2);
-//     newComment = newComment.replaceAll(regex, `${word[0]}${stars}${word[word.length - 1]}`);
-// });
+const swearings = ['bitch', 'b1tch', 'asshole', 'a$$hole'];
+const swearComment = 'See you in hell, a$$hole!';
+
+function generateBadWordsRegex(badWords) {
+    const escapedBadWords = badWords.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regexString = `\\b(?:${escapedBadWords.join('|')})\\b`;
+    return new RegExp(regexString, 'gi');
+}
+
+const regex = generateBadWordsRegex(blackListWords);
+const censoredRegexComment = comment.replaceAll(regex, '*****');
+console.log(censoredRegexComment);
