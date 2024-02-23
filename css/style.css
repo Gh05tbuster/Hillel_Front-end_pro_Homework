@@ -65,3 +65,39 @@ select {
   font-weight: 700;
   line-height: normal;
 }
+/* ---------------------------------------- */
+
+.btn.next,
+.btn.prev {
+  width: 64px;
+  cursor: pointer;
+  display: initial;
+  align-self: center;
+}
+
+.btn.next:hover,
+.btn.prev:hover {
+  transform: scale(1.03);
+}
+
+.btn.next:active,
+.btn.prev:active {
+  transform: scale(0.97);
+}
+
+.basic-image-slider {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 600px;
+}
+
+.basic-image-slider .image-box {
+  display: flex;
+  /* gap: 30px; */
+  overflow: hidden;
+}
+
+.basic-image-slider .image-box .carousel-image {
+  object-fit: contain;
+}
