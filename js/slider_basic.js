@@ -15,6 +15,7 @@ const prevBtn = document.querySelector('.basic-image-slider .prev');
 prevBtn.addEventListener('click', swipeBackward);
 const nextBtn = document.querySelector('.basic-image-slider .next');
 nextBtn.addEventListener('click', swipeForward);
+showHideButtons();
 
 function swipeForward() {
     activeImg++;
@@ -22,6 +23,7 @@ function swipeForward() {
         image.style.transform = `translateX(calc(-100% * ${activeImg}))`;
     });
     showRelevantImages(carouselImages);
+    showHideButtons();
 }
 
 function swipeBackward() {
@@ -30,6 +32,7 @@ function swipeBackward() {
         image.style.transform = `translateX(calc(-100% * ${activeImg}))`;
     });
     showRelevantImages(carouselImages);
+    showHideButtons();
 }
 
 function showRelevantImages(carouselImages) {
@@ -37,8 +40,26 @@ function showRelevantImages(carouselImages) {
     if (activeImg > 0)
         carouselImages[activeImg - 1].classList.remove('invisible');
     carouselImages[activeImg].classList.remove('invisible');
-    if (activeImg < numberOfImages)
+    if (activeImg < numberOfImages - 1)
         carouselImages[activeImg + 1].classList.remove('invisible');
+}
+
+function showHideButtons() {
+    if (activeImg === 0) {
+        prevBtn.classList.add('invisible');
+        prevBtn.style.pointerEvents = 'none';
+    } else {
+        prevBtn.classList.remove('invisible');
+        prevBtn.style.pointerEvents = 'auto';
+    }
+
+    if (activeImg === numberOfImages - 1) {
+        nextBtn.classList.add('invisible');
+        nextBtn.style.pointerEvents = 'none';
+    } else {
+        nextBtn.classList.remove('invisible');
+        nextBtn.style.pointerEvents = 'auto';
+    }
 }
 
 console.log('');

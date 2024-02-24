@@ -71,8 +71,8 @@ select {
 .btn.prev {
   width: 64px;
   cursor: pointer;
-  display: initial;
   align-self: center;
+  pointer-events: none;
 }
 
 .btn.next:hover,
