@@ -12,22 +12,13 @@ let activeImg = 0;
 showRelevantImages(carouselImages);
 
 const prevBtn = document.querySelector('.basic-image-slider .prev');
-prevBtn.addEventListener('click', swipeBackward);
+prevBtn.addEventListener('click', () => swipeOn(-1));
 const nextBtn = document.querySelector('.basic-image-slider .next');
-nextBtn.addEventListener('click', swipeForward);
+nextBtn.addEventListener('click', () => swipeOn(1));
 showHideButtons();
 
-function swipeForward() {
-    activeImg++;
-    carouselImages.forEach(image => {
-        image.style.transform = `translateX(calc(-100% * ${activeImg}))`;
-    });
-    showRelevantImages(carouselImages);
-    showHideButtons();
-}
-
-function swipeBackward() {
-    activeImg--;
+function swipeOn(tmp) {
+    activeImg += tmp;
     carouselImages.forEach(image => {
         image.style.transform = `translateX(calc(-100% * ${activeImg}))`;
     });
