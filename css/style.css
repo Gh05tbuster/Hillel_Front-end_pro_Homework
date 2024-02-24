@@ -94,7 +94,7 @@ select {
 
 .basic-image-slider .image-box {
   display: flex;
-  /* gap: 30px; */
+  gap: 30px;
   overflow: hidden;
 }
 

@@ -3,7 +3,7 @@ const numberOfImages = 7;
 const imageBox = document.querySelector('.basic-image-slider .image-box');
 for (let i = 1; i <= numberOfImages; i++) {
     imageBox.innerHTML += `
-    <img src="./img/laptop/${i}.webp" alt="" class="carousel-image" id="ci_${i}">`;
+    <img src="./img/laptop/${i}.webp" alt="" class="carousel-image" id="ci_${i - 1}">`;
 }
 
 const carouselImages = document.querySelectorAll('.basic-image-slider .image-box .carousel-image');
@@ -20,7 +20,7 @@ showHideButtons();
 function swipeOn(tmp) {
     activeImg += tmp;
     carouselImages.forEach(image => {
-        image.style.transform = `translateX(calc(-100% * ${activeImg}))`;
+        image.style.transform = `translateX(calc(-100% * ${activeImg} - 30px * ${activeImg}))`;
     });
     showRelevantImages(carouselImages);
     showHideButtons();
