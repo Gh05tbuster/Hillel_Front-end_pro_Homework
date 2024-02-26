@@ -110,7 +110,7 @@ select {
   padding: 6px;
   border-radius: 25px;
   position: absolute;
-  bottom: 10px;
+  bottom: -50px;
   background-color: var(--grey-bg-alt);
 }
 
