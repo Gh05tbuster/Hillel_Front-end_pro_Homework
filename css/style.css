@@ -90,6 +90,7 @@ select {
   justify-content: center;
   gap: 10px;
   width: 600px;
+  position: relative;
 }
 
 .basic-image-slider .image-box {
@@ -100,4 +101,31 @@ select {
 
 .basic-image-slider .image-box .carousel-image {
   object-fit: contain;
+}
+
+.basic-image-slider .basic-slider-dots {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 25px;
+  position: absolute;
+  bottom: 10px;
+  background-color: var(--grey-bg-alt);
+}
+
+.basic-image-slider .basic-slider-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--active-regular);
+  cursor: pointer;
+}
+
+.basic-image-slider .basic-slider-dots .dot:hover {
+  background-color: var(--active-hover);
+}
+
+.basic-image-slider .basic-slider-dots .dot.active {
+  background-color: var(--active-active);
 }
