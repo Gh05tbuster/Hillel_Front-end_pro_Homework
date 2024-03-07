@@ -7,7 +7,7 @@ const products = [
             RAM: '8 Gb',
             ROM: '256 Gb'
         },
-        img: './img/Smartphones/XiaomiRN13_front.png',
+        img: './dist/img/Smartphones/XiaomiRN13_front.png',
         categories: 'Smartphones',
         price: 12999,
     },
@@ -20,7 +20,7 @@ const products = [
             RAM: '12 Gb',
             ROM: '256 Gb'
         },
-        img: './img/Smartphones/PocoX6_front.png',
+        img: './dist/img/Smartphones/PocoX6_front.png',
         categories: 'Smartphones',
         price: 12999,
     },
@@ -33,7 +33,7 @@ const products = [
             DPI: '1000-2400',
             buttons: '8'
         },
-        img: './img/Peripherals/A4X7.png',
+        img: './dist/img/Peripherals/A4X7.png',
         categories: 'Peripherals',
         price: 649,
     },
@@ -45,7 +45,7 @@ const products = [
             impendance: '35 Ω',
             frequencies: '20Hz-20kHz'
         },
-        img: './img/Peripherals/LogiGProX.png',
+        img: './dist/img/Peripherals/LogiGProX.png',
         categories: 'Peripherals',
         price: 5999,
     },
@@ -57,7 +57,7 @@ const products = [
             SSDSize: '512 Gb',
             RAM: '8 Gb'
         },
-        img: './img/Laptops/IdeaPad3_front.png',
+        img: './dist/img/Laptops/IdeaPad3_front.png',
         categories: 'Laptops',
         price: 19499,
     },
@@ -69,7 +69,7 @@ const products = [
             SSDSize: '256 Gb',
             RAM: '8 Gb'
         },
-        img: './img/Laptops/AsusPro_front.png',
+        img: './dist/img/Laptops/AsusPro_front.png',
         categories: 'Laptops',
         price: 9999,
     },
