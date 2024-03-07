@@ -2,9 +2,10 @@ const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
+// const autoprefixer = require('gulp-autoprefixer'); //! breaks the code
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
-// const imagemin = require('gulp-imagemin'); //! it will break the code
+// const imagemin = require('gulp-imagemin'); //! breaks the code
 const browserSync = require('browser-sync').create();
 
 gulp.task('autoPrefixCSS', function () {
@@ -25,7 +26,7 @@ gulp.task('sassToCSS', function () {
 
 gulp.task('minifyCSS', function () {
     return gulp.src('app/css/*.css')
-        // .pipe(gulp.series('autoPrefixCSS'))
+        .pipe(autoPrefixCSS())
         .pipe(cleanCSS())
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('dist/css/'));
