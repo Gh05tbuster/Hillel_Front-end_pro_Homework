@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const clean = require('gulp-clean');
 const sass = require('gulp-sass')(require('sass'));
 const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
@@ -26,7 +27,7 @@ gulp.task('sassToCSS', function () {
 
 gulp.task('minifyCSS', function () {
     return gulp.src('app/css/*.css')
-        .pipe(autoPrefixCSS())
+        // .pipe(autoprefixer())
         .pipe(cleanCSS())
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('dist/css/'));
@@ -74,4 +75,84 @@ function watchAll() {
 }
 
 // gulp.task('default', gulp.parallel(watchAll, 'serve'));
-gulp.task('default', gulp.parallel(watchAll));
+// gulp.task('default', gulp.parallel(watchAll));
+
+//todo: replace all tasks with functions
+//todo: add browser sync
+
+function clear() {
+    return gulp.src('./dist/*', {
+        read: false
+    })
+        .pipe(clean());
+}
+
+function scss() {
+    const source = './app/scss/*.scss';
+    return gulp.src(source)
+        .pipe(sass())
+        // .pipe(autoprefixer({
+        //     overrideBrowserslist: ['last 5 versions'],
+        //     cascade: false
+        // }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('./dist/css/'))
+        .pipe(browserSync.stream());
+}
+
+function css() {
+    const source = './app/css/*.css';
+    return gulp.src(source)
+        // .pipe(autoprefixer({
+        //     overrideBrowserslist: ['last 5 versions'],
+        //     cascade: false
+        // }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('./dist/css/'))
+        .pipe(browserSync.stream());
+}
+
+function js() {
+    const source = './app/js/*.js';
+
+    return gulp.src(source)
+        .pipe(uglify())
+        .pipe(rename({
+            extname: '.min.js'
+        }))
+        .pipe(gulp.dest('./dist/js/'))
+        .pipe(browserSync.stream());
+}
+
+function img() {
+    const source = './app/img/**/*';
+    return gulp.src(source)
+        .pipe(gulp.dest('./dist/img'))
+        .pipe(browserSync.stream());
+}
+
+function watchFiles() {
+    gulp.watch('./app/scss/*', scss);
+    gulp.watch('./app/css/*', css);
+    gulp.watch('./app/js/*', js);
+    gulp.watch('./app/img/**/*', img);
+}
+
+function sync() {
+    browserSync.init({
+        server: {
+            baseDir: './'
+        },
+        port: 3000
+    });
+}
+
+exports.watch = gulp.parallel(watchFiles, sync);
+exports.build = gulp.series(clear, gulp.parallel(scss, css, js, img));
+exports.default = gulp.series(clear, gulp.parallel(scss, css, js, img), gulp.parallel(watchFiles, sync));

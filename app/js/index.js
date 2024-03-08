@@ -1,9 +1,9 @@
-import { products, citiesAndDepartments } from './data.js';
+import { products, citiesAndDepartments } from './data.min.js';
 import {
     hideElement, showElement, getBackImg, getParameterList, resetQuantity, resetTextInput, setSum,
     validateName, validatePhone, validateEmail, validateCity, validateDepartment,
     showError, submitForm, formatDate, formatTime, toggleCategories, renderOrderDetails
-} from './helpers.js';
+} from './helpers.min.js';
 
 const prodCat = document.querySelector('.aside .productCategories');
 const prodList = document.querySelector('.section.main .productList');
