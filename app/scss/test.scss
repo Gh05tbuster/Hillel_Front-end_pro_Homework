@@ -3,5 +3,9 @@
   .testTwo {
     font-size: 24px;
     display: flex;
+
+    &::placeholder {
+      color: red;
+    }
   }
 }
